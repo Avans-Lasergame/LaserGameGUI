@@ -11,20 +11,21 @@ public class Player{
         this.health = 100;
     }
 
+    // Get items
     public Hub getPlayerHub(){
         return this.hub;
     }
-
     public String getPlayerName(){
         return this.playerName;
     }
-
-    public void setPlayerHealth(int playerHealth){
-        this.health = playerHealth;
-    }
     public int getPlayerHealth(){
+        return this.health;
+    }
+
+    // Set items
+    public int reduceHealth(){
         if (this.hub.getVest().isHit()){
-            this.setPlayerHealth(this.health-10);
+            this.health = this.health-10;
         }
         return this.health;
     }

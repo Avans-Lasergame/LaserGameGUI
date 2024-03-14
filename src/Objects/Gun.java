@@ -7,10 +7,12 @@ public class Gun{
         this.isShooting = false;
     }
 
+    // Get items
     public boolean isShooting(){
         return this.isShooting;
     }
 
+    // Set items
     public void shootGun(){
         this.isShooting = true;
         // Set false after with a timer?

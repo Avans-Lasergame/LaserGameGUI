@@ -20,8 +20,10 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // Generate testdata
         generatePlayers();
 
+        
         BorderPane mainPane = new BorderPane();
 
         Scene mainScene = new Scene(mainPane);
@@ -36,15 +38,22 @@ public class GUI extends Application{
         // Create guns & Vests
         Player daan = new Player(new Hub(new Gun(), new Vest()), "Daan");
         players.add(daan);
-        Player erik = new Player(new Hub(new Gun(), new Vest()), "Daan");
+        Player erik = new Player(new Hub(new Gun(), new Vest()), "Erik");
         players.add(erik);
-        Player storm = new Player(new Hub(new Gun(), new Vest()), "Daan");
+        Player storm = new Player(new Hub(new Gun(), new Vest()), "Storm");
         players.add(storm);
 
+        // Combat logs could look like:
         daan.getPlayerHub().getGun().shootGun();
-        System.out.println(erik.getPlayerHealth());
+        System.out.println(erik.getPlayerName() + " has: " + erik.getPlayerHealth() + " health.");
         erik.getPlayerHub().getVest().getsHit();
-        System.out.println(erik.getPlayerHealth());
-
+        erik.reduceHealth();
+        storm.getPlayerHub().getGun().shootGun();
+        System.out.println(erik.getPlayerName() + " has: " + erik.getPlayerHealth() + " health.");
+        erik.getPlayerHub().getVest().getsHit();
+        erik.reduceHealth();
+        System.out.println(erik.getPlayerName() + " has: " + erik.getPlayerHealth() + " health.");
+        erik.getPlayerHub().getVest().isNotHit();
+        System.out.println(erik.getPlayerName() + " has: " + erik.getPlayerHealth() + " health.");
     }
 }

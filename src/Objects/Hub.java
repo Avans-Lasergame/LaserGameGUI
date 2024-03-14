@@ -9,10 +9,10 @@ public class Hub{
         this.vest = vest;
     }
 
+    // Get items
     public Gun getGun(){
         return this.gun;
     }
-
     public Vest getVest(){
         return this.vest;
     }
