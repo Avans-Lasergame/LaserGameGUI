@@ -1,7 +1,7 @@
 package Gui;
 
 import Objects.Gun;
-import Objects.Speler;
+import Objects.Player;
 import Objects.Game;
 import Objects.Vest;
 import javafx.geometry.Insets;
@@ -35,24 +35,24 @@ public class SpelerUpdate {
         Label spelerInputLabel = new Label("Speler: ");
         labelColumnBox.getChildren().add(spelerInputLabel);
 
-        ComboBox<Speler> SpelerOptionsComboBox = new ComboBox<>();
-        HashMap<UUID, Speler> spelers = game.getSpelers();
+        ComboBox<Player> SpelerOptionsComboBox = new ComboBox<>();
+        HashMap<UUID, Player> spelers = game.getSpelers();
         for (UUID key : spelers.keySet()) {
             SpelerOptionsComboBox.getItems().add(spelers.get(key));
         }
-        SpelerOptionsComboBox.setConverter(new StringConverter<Speler>() {
+        SpelerOptionsComboBox.setConverter(new StringConverter<Player>() {
             @Override
-            public String toString(Speler speler) {
+            public String toString(Player player) {
                 StringBuilder gameData = new StringBuilder();
-                gameData.append(speler.getName());
+                gameData.append(player.getName());
                 gameData.append(", ");
-                gameData.append(speler.getHealth() + " health");
+                gameData.append(player.getHealth() + " health");
                 gameData.append(", ");
                 return gameData.toString();
             }
 
             @Override
-            public Speler fromString(String string) {
+            public Player fromString(String string) {
                 return null;
             }
         });
@@ -78,34 +78,34 @@ public class SpelerUpdate {
 
         SpelerOptionsComboBox.setOnAction(e -> {
             //get the scheduleItem that was selected
-            Speler selectedSpeler = SpelerOptionsComboBox.getValue();
+            Player selectedPlayer = SpelerOptionsComboBox.getValue();
             //fill name
-            nameInput.setText(selectedSpeler.getName());
+            nameInput.setText(selectedPlayer.getName());
             //fill health
-            healthInput.setText(Integer.toString(selectedSpeler.getHealth()));
+            healthInput.setText(Integer.toString(selectedPlayer.getHealth()));
         });
 
 
         //#region update button
         Button updateScheduleItemButton = new Button("Update Speler");
         updateScheduleItemButton.setOnAction(event -> {
-            Speler speler = SpelerOptionsComboBox.getValue();
+            Player player = SpelerOptionsComboBox.getValue();
 
-            System.out.println("updating scheduleItem " + speler.getId() + ":");
+            System.out.println("updating scheduleItem " + player.getId() + ":");
             System.out.println("from:");
-            System.out.println(speler);
+            System.out.println(player);
 
             String name = nameInput.getText();
             int health = Integer.parseInt(healthInput.getText());
 
 
-            speler.setAll(name, health, new Gun(),new Vest());
+            player.setAll(name, health, new Gun(),new Vest());
 
             System.out.println("To:");
-            System.out.println(speler);
+            System.out.println(player);
 
             //updates the value in the Speler options Combobox
-            SpelerOptionsComboBox.getItems().set(SpelerOptionsComboBox.getSelectionModel().getSelectedIndex(), speler);
+            SpelerOptionsComboBox.getItems().set(SpelerOptionsComboBox.getSelectionModel().getSelectedIndex(), player);
         });
         inputsColumnBox.getChildren().add(updateScheduleItemButton);
         //#endregion

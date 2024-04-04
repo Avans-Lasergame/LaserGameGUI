@@ -1,7 +1,7 @@
 package Gui;
 
 import Objects.Gun;
-import Objects.Speler;
+import Objects.Player;
 import Objects.Game;
 import Objects.Vest;
 import javafx.geometry.Insets;
@@ -51,7 +51,7 @@ public class SpelerCreate {
             String name = nameInput.getText();
             int health = Integer.parseInt(healthInput.getText());
 
-            Speler newItem = new Speler(name,health,new Gun(),new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
+            Player newItem = new Player(name,health,new Gun(),new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
             game.addSpeler(newItem);
 
             System.out.println("created Speler: " + newItem);

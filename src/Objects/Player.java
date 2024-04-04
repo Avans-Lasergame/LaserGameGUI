@@ -3,7 +3,7 @@ package Objects;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Speler implements CRUD, Serializable {
+public class Player implements CRUD, Serializable {
 
 
     private Vest vest;
@@ -13,7 +13,7 @@ public class Speler implements CRUD, Serializable {
     private int health;
 
 
-    public Speler(String name, int health, Gun gun, Vest vest) {
+    public Player(String name, int health, Gun gun, Vest vest) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.gun = gun;

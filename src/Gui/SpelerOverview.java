@@ -1,6 +1,6 @@
 package Gui;
 
-import Objects.Speler;
+import Objects.Player;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,7 +41,7 @@ public class SpelerOverview {
 
             listsContainerBox.getChildren().addAll(collumnNames, collumnHealth, collumnDelete);
 
-            HashMap<UUID, Speler> Spelers = GUI.getGame().getSpelers();
+            HashMap<UUID, Player> Spelers = GUI.getGame().getSpelers();
             for (UUID key : Spelers.keySet()) {
                 collumnNames.getItems().add(Spelers.get(key).getName());
                 collumnHealth.getItems().add(Integer.toString(Spelers.get(key).getHealth()));
