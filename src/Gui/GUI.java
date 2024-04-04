@@ -1,9 +1,6 @@
 package Gui;
 
-import Objects.Game;
-import Objects.Gun;
-import Objects.Player;
-import Objects.Vest;
+import Objects.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -18,18 +15,15 @@ import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 public class GUI extends Application {
     private static Game game = new Game();
     private static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<Team> teams = new ArrayList<>();
     public static void main(String[] args) {
         launch(GUI.class);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        // Testdata
-        players.add(new Player("Daan", 100, new Gun(), new Vest()));
-        players.add(new Player("Storm", 90, new Gun(), new Vest()));
-        players.add(new Player("Erik", 80, new Gun(), new Vest()));
-        // Uncomment for real data
-        //players = GUI.getPlayers();
+        generatePlayerTestData();
+        generateTeamTestData();
 
         stage.setTitle("Laser_game GUI");
         TabPane tabpane = new TabPane();
@@ -39,23 +33,54 @@ public class GUI extends Application {
         playerBox.getChildren().addAll(SpelerCreate.getComponent(), SpelerUpdate.getComponent(), SpelerOverview.getComponent());
         playerCRUD.setContent(playerBox);
 
+        Tab teamCRUD = new Tab("Team");
+        HBox teamBox = new HBox();
+        teamBox.getChildren().addAll(TeamCreate.getComponent(), TeamUpdate.getComponent(), TeamOverview.getComponent());
+        teamCRUD.setContent(teamBox);
+
         Tab gameCRUD = new Tab("Game");
         HBox gameBox = new HBox();
-        gameBox.getChildren().addAll(GameCreate.getComponent());
+        gameBox.getChildren().addAll(GameCreate.getComponent(), GameUpdate.getComponent(), GameOverview.getComponent());
         gameCRUD.setContent(gameBox);
 
 
-        tabpane.getTabs().addAll(playerCRUD, gameCRUD);
+        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD);
         tabpane.setTabClosingPolicy(UNAVAILABLE);
 
         Scene scene = new Scene(tabpane, 1200, 600);
         stage.setScene(scene);
         stage.show();
     }
+
     public static Game getGame(){
         return game;
     }
+
     public static ArrayList<Player> getPlayers(){
         return players;
     }
+
+    private void generatePlayerTestData(){
+        // Testdata
+        Player erik = new Player("Erik", 100, new Gun(), new Vest());
+        Player storm = new Player("Storm", 95, new Gun(), new Vest());
+        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+        players.add(erik);
+        players.add(storm);
+        players.add(daan);
+    }
+
+    private void generateTeamTestData(){
+        Player erik = new Player("Erik", 100, new Gun(), new Vest());
+        Player storm = new Player("Storm", 95, new Gun(), new Vest());
+        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+
+        // Testdata
+        Team team1 = new Team("Team 1", erik);
+        team1.addPlayer(storm);
+        Team team2 = new Team("Team 2", daan);
+        teams.add(team1);
+        teams.add(team2);
+    }
+
 }
