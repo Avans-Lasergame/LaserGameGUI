@@ -131,6 +131,9 @@ public class TeamCreate{
                 addedTeam.setHeaderText("Success!");
                 addedTeam.setContentText(newTeam.getTeamName() + " was created! ");
                 addedTeam.showAndWait();
+
+                // Empty textfield
+                createTeam.setText("");
             } else {
                 // Show alert
                 Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
