@@ -60,6 +60,10 @@ public class GUI extends Application {
         return players;
     }
 
+    public static ArrayList<Team> getTeams(){
+        return teams;
+    }
+
     private void generatePlayerTestData(){
         // Testdata
         Player erik = new Player("Erik", 100, new Gun(), new Vest());

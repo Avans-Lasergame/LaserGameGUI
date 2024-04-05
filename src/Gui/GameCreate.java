@@ -15,12 +15,22 @@ import java.util.List;
 public class GameCreate{
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();  //Selected Players for a game
-    private static int maximunPlayerCount = 4;
+    private static int maximumPlayerCount = 4;
 
     public static VBox getComponent() {
         // General settings
         VBox gameCreateBox = new VBox(20);
         gameCreateBox.setPadding(new Insets(20));
+
+        //#region List of players TableView
+        TableView<Player> playerTable = new TableView<>();
+        playerTable.setPrefWidth(200);
+        TableColumn<Player, String> playerColumn = new TableColumn("Selected Players");
+        playerColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        playerColumn.setPrefWidth(playerTable.getPrefWidth());
+        playerTable.getColumns().add(playerColumn);
+        playerTable.setItems(selectedPlayers);
+        //#endregion
 
         //#region Select GameMode ComboBox
         Label labelSelectGameType = new Label("Select game type:");
@@ -55,16 +65,6 @@ public class GameCreate{
         selectPlayer.getSelectionModel().selectFirst();
         //#endregion
 
-        //#region List of players TableView
-        TableView<Player> playerTable = new TableView<>();
-        playerTable.setPrefWidth(200);
-        TableColumn<Player, String> playerColumn = new TableColumn("Selected Players");
-        playerColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        playerColumn.setPrefWidth(playerTable.getPrefWidth());
-        playerTable.getColumns().add(playerColumn);
-        playerTable.setItems(selectedPlayers);
-        //#endregion
-
 
         // Action items:
         //#region Add Player Button
@@ -72,7 +72,7 @@ public class GameCreate{
         buttonAddPlayer.setOnAction(e -> {
             Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
             if (selectedGameMode == String.valueOf(GameModes.FreeForAll)){
-                if (selectedPlayers.size() < maximunPlayerCount){
+                if (selectedPlayers.size() < maximumPlayerCount){
                     Player selectedPlayer = (Player) selectPlayer.getSelectionModel().getSelectedItem();
                     selectedPlayers.add(selectedPlayer);
                     // Show alert
@@ -82,18 +82,18 @@ public class GameCreate{
                     addedPlayer.showAndWait();
                 } else{
                     // Show alert
-                    Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                    addedPlayer.setHeaderText("Error!");
-                    addedPlayer.setContentText("Maximum amount of Players reached!");
-                    addedPlayer.showAndWait();
+                    Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                    errorPlayer.setHeaderText("Error!");
+                    errorPlayer.setContentText("Maximum amount of Players reached!");
+                    errorPlayer.showAndWait();
                 }
             } else {
                 selectedPlayers.clear();
                 // Show alert
-                Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                addedPlayer.setHeaderText("Error!");
-                addedPlayer.setContentText("You must change the GameMode to add individual Players!");
-                addedPlayer.showAndWait();
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("You must change the GameMode to add individual Players!");
+                errorPlayer.showAndWait();
             }
         });
         //#endregion
@@ -106,24 +106,24 @@ public class GameCreate{
                 if (!selectedPlayers.isEmpty()){
                     selectedPlayers.remove(selectedPlayers.size() - 1);
                     // Show alert
-                    Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                    addedPlayer.setHeaderText("Success!");
-                    addedPlayer.setContentText("The last Player was removed from the list of selected players!");
-                    addedPlayer.showAndWait();
+                    Alert removedPlayer = new Alert(Alert.AlertType.INFORMATION);
+                    removedPlayer.setHeaderText("Success!");
+                    removedPlayer.setContentText("The last Player was removed from the list of selected players!");
+                    removedPlayer.showAndWait();
                 } else{
                     // Show alert
-                    Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                    addedPlayer.setHeaderText("Error!");
-                    addedPlayer.setContentText("There are no Players found in the list!");
-                    addedPlayer.showAndWait();
+                    Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                    errorPlayer.setHeaderText("Error!");
+                    errorPlayer.setContentText("There are no Players found in the list!");
+                    errorPlayer.showAndWait();
                 }
             } else {
                 selectedPlayers.clear();
                 // Show alert
-                Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                addedPlayer.setHeaderText("Error!");
-                addedPlayer.setContentText("You must change the GameMode to add individual Players!");
-                addedPlayer.showAndWait();
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("You must change the GameMode to add individual Players!");
+                errorPlayer.showAndWait();
             }
         });
         //#endregion
