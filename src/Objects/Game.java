@@ -15,7 +15,7 @@ public class Game {
         return spelers;
     }
 
-    public Speler getAttraction(UUID id) {
+    public Speler getSpeler(UUID id) {
         return spelers.get(id);
     }
 
