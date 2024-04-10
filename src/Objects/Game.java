@@ -5,26 +5,26 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Game {
-    private HashMap<UUID, Speler> attractions;
+    private HashMap<UUID, Speler> spelers;
 
     public Game() {
-        this.attractions = new HashMap<>();
+        this.spelers = new HashMap<>();
     }
 
     public HashMap<UUID, Speler> getSpelers() {
-        return attractions;
+        return spelers;
     }
 
     public Speler getAttraction(UUID id) {
-        return attractions.get(id);
+        return spelers.get(id);
     }
 
     public void addSpeler(Speler speler) {
-        this.attractions.put(speler.getId(), speler);
+        this.spelers.put(speler.getId(), speler);
     }
 
     public void deleteSpeler(UUID id) {
-        this.attractions.remove(id);
+        this.spelers.remove(id);
     }
 
 }
