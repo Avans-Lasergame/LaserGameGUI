@@ -1,4 +1,4 @@
-package Gui;
+package Gui.TeamCRUD;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;

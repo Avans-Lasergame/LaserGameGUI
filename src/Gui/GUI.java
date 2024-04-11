@@ -1,5 +1,14 @@
 package Gui;
 
+import Gui.GameCRUD.GameCreate;
+import Gui.GameCRUD.GameOverview;
+import Gui.GameCRUD.GameUpdate;
+import Gui.SpelerCRUD.SpelerCreate;
+import Gui.SpelerCRUD.SpelerOverview;
+import Gui.SpelerCRUD.SpelerUpdate;
+import Gui.TeamCRUD.TeamCreate;
+import Gui.TeamCRUD.TeamOverview;
+import Gui.TeamCRUD.TeamUpdate;
 import Objects.*;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -121,18 +130,18 @@ public class GUI extends Application {
 
     private void generatePlayerTestData(){
         // Testdata
-        Player erik = new Player("Erik", 100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+        Player erik = new Player("Erik", 100,100, new Gun(), new Vest());
+        Player storm = new Player("Storm", 95,100, new Gun(), new Vest());
+        Player daan = new Player("Daan", 90,100, new Gun(), new Vest());
         players.add(erik);
         players.add(storm);
         players.add(daan);
     }
 
     private void generateTeamTestData(){
-        Player erik = new Player("Erik", 100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+        Player erik = new Player("Erik", 100,100, new Gun(), new Vest());
+        Player storm = new Player("Storm", 95,100, new Gun(), new Vest());
+        Player daan = new Player("Daan", 90,100, new Gun(), new Vest());
 
         // Testdata
         Team team1 = new Team("Team 1", erik);

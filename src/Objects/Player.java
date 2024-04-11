@@ -11,20 +11,23 @@ public class Player implements CRUD, Serializable {
     private UUID id;
     private String name;
     private int health;
+    private int maxHealth;
+    private boolean isDead;
 
 
-    public Player(String name, int health, Gun gun, Vest vest) {
+    public Player(String name, int health,int maxHealth, Gun gun, Vest vest) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.gun = gun;
         this.health = health;
+        this.maxHealth = maxHealth;
         this.vest = vest;
-
         this.update();
     }
-    public void setAll(String name, int health, Gun gun, Vest vest) {
+    public void setAll(String name, int health,int maxHealth, Gun gun, Vest vest) {
         this.name = name;
         this.health = health;
+        this.maxHealth = maxHealth;
         this.gun = gun;
         this.vest = vest;
     }

@@ -1,5 +1,6 @@
-package Gui;
+package Gui.SpelerCRUD;
 
+import Gui.GUI;
 import Objects.Player;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
