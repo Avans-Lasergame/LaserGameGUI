@@ -49,7 +49,7 @@ public class GUI extends Application {
 
         Tab teamCRUD = new Tab("Team");
         HBox teamBox = new HBox();
-        teamBox.getChildren().addAll(TeamCreate.getComponent(), TeamUpdate.getComponent(), TeamOverview.getComponent());
+        teamBox.getChildren().addAll(TeamCRUD.getComponent());
         teamCRUD.setContent(teamBox);
         teamCRUD.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
@@ -58,13 +58,16 @@ public class GUI extends Application {
                     previousTab = teamCRUD;
                 } else if (previousTab == teamCRUD){
                     // Update Players and Teams data
-                    setPlayers(TeamOverview.getPlayers());
-                    setTeams(TeamOverview.getTeams());
+                    setPlayers(TeamCRUD.getPlayers());
+                    setTeams(TeamCRUD.getTeams());
                     for (Player player : players){
                         System.out.println(player.getName());
                     }
                     for (Team team : teams){
                         System.out.println(team.getTeamName());
+                        for (Player player : team.getPlayers()){
+                            System.out.println(player.getName());
+                        }
                     }
                     System.out.println("Data updated!");
                 }
