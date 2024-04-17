@@ -76,15 +76,30 @@ public class GUI extends Application {
 
         Tab gameCRUD = new Tab("Game");
         HBox gameBox = new HBox();
-        gameBox.getChildren().addAll(GameCreate.getComponent(), GameUpdate.getComponent(), GameOverview.getComponent());
+        gameBox.getChildren().addAll(GameCRUD.getComponent());
         gameCRUD.setContent(gameBox);
         gameCRUD.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (gameCRUD.isSelected()){
-                    // TODO make this methode return data
-
                     previousTab = gameCRUD;
+                } else if (previousTab == gameCRUD){
+                    // Update Game data
+                    game = GameCRUD.getGame();
+                    if (game.getPlayers() != null){
+                        for (Player player : game.getPlayers().values()){
+                            System.out.println(player.getName());
+                        }
+                    }
+                    if (game.getTeams() != null){
+                        for (Team team : game.getTeams().values()){
+                            System.out.println(team.getTeamName());
+                            for (Player player : team.getPlayers()){
+                                System.out.println(player.getName());
+                            }
+                        }
+                    }
+                    System.out.println("Game set!");
                 }
             }
         });

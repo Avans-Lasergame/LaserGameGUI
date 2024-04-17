@@ -52,7 +52,7 @@ public class SpelerCreate {
             int health = Integer.parseInt(healthInput.getText());
 
             Player newItem = new Player(name,health,new Gun(),new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
-            game.addSpeler(newItem);
+            game.addPlayer(newItem);
 
             System.out.println("created Speler: " + newItem);
         });

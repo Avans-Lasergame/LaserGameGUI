@@ -21,7 +21,7 @@ public class SpelerOverview {
         mainBox.getChildren().add(label);
 
 
-        if (GUI.getGame().getSpelers().isEmpty()) {
+        if (GUI.getGame().getPlayers().isEmpty()) {
             Label labelEmpty = new Label("No Spelers yet");
             mainBox.getChildren().add(labelEmpty);
         } else {
@@ -41,7 +41,7 @@ public class SpelerOverview {
 
             listsContainerBox.getChildren().addAll(collumnNames, collumnHealth, collumnDelete);
 
-            HashMap<UUID, Player> Spelers = GUI.getGame().getSpelers();
+            HashMap<UUID, Player> Spelers = GUI.getGame().getPlayers();
             for (UUID key : Spelers.keySet()) {
                 collumnNames.getItems().add(Spelers.get(key).getName());
                 collumnHealth.getItems().add(Integer.toString(Spelers.get(key).getHealth()));

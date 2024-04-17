@@ -24,6 +24,10 @@ public class Team{
         }
     }
 
+    public UUID getId(){
+        return this.id;
+    }
+
     public String getTeamName(){
         return this.name;
     }

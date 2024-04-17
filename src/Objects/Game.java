@@ -1,30 +1,58 @@
 package Objects;
 
 
+import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Game {
-    private HashMap<UUID, Player> attractions;
+    private HashMap<UUID, Player> players;
+    private HashMap<UUID, Team> teams;
+    private GameModes gameMode;
 
-    public Game() {
-        this.attractions = new HashMap<>();
+    public Game(){
+        this.players = new HashMap<>();
     }
 
-    public HashMap<UUID, Player> getSpelers() {
-        return attractions;
+    public Game(GameModes gameMode, ObservableList<Player> players){
+        this.players = new HashMap<>();
+        for (Player player : players){
+            this.players.put(player.getId(), player);
+        }
+        this.gameMode = gameMode;
     }
 
-    public Player getAttraction(UUID id) {
-        return attractions.get(id);
+    public Game(GameModes gameMode, Team team1, Team team2){
+        this.teams = new HashMap<>();
+        this.teams.put(team1.getId(), team1);
+        this.teams.put(team2.getId(), team2);
+        this.gameMode = gameMode;
     }
 
-    public void addSpeler(Player player) {
-        this.attractions.put(player.getId(), player);
+    public HashMap<UUID, Player> getPlayers() {
+        return players;
     }
 
-    public void deleteSpeler(UUID id) {
-        this.attractions.remove(id);
+    public HashMap<UUID, Team> getTeams(){
+        return teams;
+    }
+
+    public void addPlayer(Player player) {
+        this.players.put(player.getId(), player);
+    }
+
+    public void deletePlayer(UUID id) {
+        this.players.remove(id);
+    }
+
+    public void setGameMode(GameModes gameMode){
+        this.gameMode = gameMode;
+    }
+
+    public GameModes getGameMode(){
+        return this.gameMode;
     }
 
 }
