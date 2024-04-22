@@ -86,20 +86,24 @@ public class GUI extends Application {
                 } else if (previousTab == gameCRUD){
                     // Update Game data
                     game = GameCRUD.getGame();
-                    if (game.getPlayers() != null){
-                        for (Player player : game.getPlayers().values()){
-                            System.out.println(player.getName());
-                        }
-                    }
-                    if (game.getTeams() != null){
-                        for (Team team : game.getTeams().values()){
-                            System.out.println(team.getTeamName());
-                            for (Player player : team.getPlayers()){
+                    if (game != null){
+                        if (game.getPlayers() != null){
+                            for (Player player : game.getPlayers().values()){
                                 System.out.println(player.getName());
                             }
                         }
+                        if (game.getTeams() != null){
+                            for (Team team : game.getTeams().values()){
+                                System.out.println(team.getTeamName());
+                                for (Player player : team.getPlayers()){
+                                    System.out.println(player.getName());
+                                }
+                            }
+                        }
+                        System.out.println("Game set!");
+                    } else {
+                        System.out.println("No game found!");
                     }
-                    System.out.println("Game set!");
                 }
             }
         });
