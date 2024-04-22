@@ -58,7 +58,7 @@ public class Player implements CRUD, Serializable {
 
     @Override
     public void delete(Game game) {
-        game.deleteSpeler(this.getId());
+        game.deletePlayer(this.getId());
     }
 
 

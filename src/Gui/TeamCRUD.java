@@ -1,7 +1,10 @@
 package Gui.TeamCRUD;
 
+<<<<<<<< HEAD:src/Gui/TeamCRUD/TeamCreate.java
 import Gui.GUI;
 import Objects.GameModes;
+========
+>>>>>>>> origin/GameCRUD:src/Gui/TeamCRUD.java
 import Objects.Player;
 import Objects.Team;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,13 +15,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-import jdk.nashorn.internal.ir.LiteralNode;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-public class TeamCreate{
+public class TeamCRUD{
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Team> selectableTeams = FXCollections.observableArrayList(); //Selectable Teams
@@ -26,11 +26,12 @@ public class TeamCreate{
     private static int maximumPlayersInTeam = 4;
     public static VBox getComponent() {
         // General settings
-        VBox teamCreateBox = new VBox(20);
-        teamCreateBox.setPadding(new Insets(20));
+        VBox teamCrudBox = new VBox(20);
+        teamCrudBox.setPadding(new Insets(20));
         VBox firstRow = new VBox(20);
         VBox secondRow = new VBox(20);
-        HBox columns = new HBox(20);
+        VBox thirdRow = new VBox(20);
+        HBox columns = new HBox(100);
         // Fill starting list of Teams
         for (Team team : teams){
            selectableTeams.add(team);
@@ -67,7 +68,6 @@ public class TeamCreate{
         //#endregion
 
         //#region Select Team ComboBox
-        Label labelAddToTeam = new Label("Add Players to a Team:");
         Label labelSelectTeam = new Label("Select a Team:");
         ComboBox selectTeam = new ComboBox();
         selectTeam.setPrefWidth(200);
@@ -84,15 +84,16 @@ public class TeamCreate{
                         team.equals(string)).findFirst().orElse(null);
             }
         });
-        selectTeam.getSelectionModel().selectFirst();
         selectTeam.setOnAction(event -> {
             selectedPlayers.clear();
-            Team theTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
-            if (selectTeam.getSelectionModel().getSelectedItem().equals(theTeam)){
-                for (Player player : theTeam.getPlayers()){
-                    selectedPlayers.add(player);
+            try {
+                Team theTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
+                if (selectTeam.getSelectionModel().getSelectedItem().equals(theTeam)){
+                    for (Player player : theTeam.getPlayers()){
+                        selectedPlayers.add(player);
+                    }
                 }
-            }
+            } catch (NullPointerException npe){} //Catch is alleen voor als het eerste team wordt verwijderd
         });
         //#endregion
 
@@ -115,7 +116,6 @@ public class TeamCreate{
         });
         selectPlayer.getSelectionModel().selectFirst();
         //#endregion
-
 
         // Action items:
         //#region Create Team Button
@@ -146,20 +146,42 @@ public class TeamCreate{
         //#endregion
 
         //#region Add Player Button
-        Button buttonAddPlayer = new Button("Add Player to List");
+        Button buttonAddPlayer = new Button("Add Player to Team");
         buttonAddPlayer.setOnAction(e -> {
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
+            if (selectedTeam == null){
+                // Show alert
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("There was no Team selected!");
+                errorPlayer.showAndWait();
+                return;
+            }
             if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
                 if (selectedPlayers.size() < maximumPlayersInTeam){
                     Player selectedPlayer = (Player) selectPlayer.getSelectionModel().getSelectedItem();
-                    selectedPlayers.add(selectedPlayer);
-                    selectedTeam.addPlayer(selectedPlayer);
+                    boolean playerAlreadyAdded = false;
+                    for (Player player : selectedTeam.getPlayers()){
+                        if (player.getName().equalsIgnoreCase(selectedPlayer.getName())){
+                            playerAlreadyAdded = true;
+                        }
+                    }
+                    if (!playerAlreadyAdded){
+                        selectedPlayers.add(selectedPlayer);
+                        selectedTeam.addPlayer(selectedPlayer);
 
-                    // Show alert
-                    Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
-                    addedPlayer.setHeaderText("Success!");
-                    addedPlayer.setContentText(selectedPlayer.getName() + " was added to: " + selectedTeam.getTeamName());
-                    addedPlayer.showAndWait();
+                        // Show alert
+                        Alert addedPlayer = new Alert(Alert.AlertType.INFORMATION);
+                        addedPlayer.setHeaderText("Success!");
+                        addedPlayer.setContentText(selectedPlayer.getName() + " was added to: " + selectedTeam.getTeamName());
+                        addedPlayer.showAndWait();
+                    } else {
+                        // Show alert
+                        Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                        errorPlayer.setHeaderText("Error!");
+                        errorPlayer.setContentText(selectedPlayer.getName() + " was already added to: " + selectedTeam.getTeamName());
+                        errorPlayer.showAndWait();
+                    }
                 } else{
                     // Show alert
                     Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
@@ -182,6 +204,14 @@ public class TeamCreate{
         Button buttonRemovePlayer = new Button("Remove last Player from List");
         buttonRemovePlayer.setOnAction(e -> {
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
+            if (selectedTeam == null){
+                // Show alert
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("There was no Team selected!");
+                errorPlayer.showAndWait();
+                return;
+            }
             if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
                 if (!selectedPlayers.isEmpty()){
                     selectedTeam.removePlayer(playerTable.getItems().get(selectedPlayers.size()-1));
@@ -210,11 +240,52 @@ public class TeamCreate{
         });
         //#endregion
 
+        //#region Remove Team Button
+        Button buttonRemoveTeam = new Button("Delete selected Team");
+        buttonRemoveTeam.setOnAction(e -> {
+            Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
+            if (selectedTeam == null){
+                // Show alert
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("There was no Team selected!");
+                errorPlayer.showAndWait();
+                return;
+            }
+            if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
+                selectTeam.getItems().remove(selectedTeam);
+                teams.remove(selectedTeam);
+                selectTeam.getSelectionModel().selectFirst();
+
+                // Show alert
+                Alert removedTeam = new Alert(Alert.AlertType.INFORMATION);
+                removedTeam.setHeaderText("Success!");
+                removedTeam.setContentText("The selected Team was removed!");
+                removedTeam.showAndWait();
+            } else {
+                // Show alert
+                Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
+                errorTeam.setHeaderText("Error!");
+                errorTeam.setContentText("Something went wrong deleting this Team!");
+                errorTeam.showAndWait();
+            }
+        });
+        //#endregion
+
         firstRow.getChildren().addAll(labelCreateTeam, createTeam, selectTeamCaptain, buttonCreateTeam);
-        secondRow.getChildren().addAll(labelAddToTeam, labelSelectTeam, selectTeam, labelSelectPlayer, selectPlayer, buttonAddPlayer,
-                playerTable, buttonRemovePlayer);
-        columns.getChildren().addAll(firstRow, secondRow);
-        teamCreateBox.getChildren().addAll(columns);
-        return teamCreateBox;
+        secondRow.getChildren().addAll(labelSelectTeam, selectTeam);
+        thirdRow.getChildren().addAll(labelSelectPlayer, selectPlayer, buttonAddPlayer, playerTable,
+                buttonRemovePlayer, buttonRemoveTeam);
+        columns.getChildren().addAll(firstRow, secondRow, thirdRow);
+        teamCrudBox.getChildren().addAll(columns);
+        return teamCrudBox;
+    }
+
+    public static ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public static ArrayList<Team> getTeams(){
+        return teams;
     }
 }

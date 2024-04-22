@@ -37,7 +37,7 @@ public class SpelerUpdate {
         labelColumnBox.getChildren().add(spelerInputLabel);
 
         ComboBox<Player> SpelerOptionsComboBox = new ComboBox<>();
-        HashMap<UUID, Player> spelers = game.getSpelers();
+        HashMap<UUID, Player> spelers = game.getPlayers();
         for (UUID key : spelers.keySet()) {
             SpelerOptionsComboBox.getItems().add(spelers.get(key));
         }
