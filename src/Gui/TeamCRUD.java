@@ -1,10 +1,7 @@
-package Gui.TeamCRUD;
+package Gui;
 
-<<<<<<<< HEAD:src/Gui/TeamCRUD/TeamCreate.java
 import Gui.GUI;
 import Objects.GameModes;
-========
->>>>>>>> origin/GameCRUD:src/Gui/TeamCRUD.java
 import Objects.Player;
 import Objects.Team;
 import javafx.beans.property.SimpleStringProperty;

@@ -13,6 +13,7 @@ public class Game {
     private HashMap<UUID, Player> players;
     private HashMap<UUID, Team> teams;
     private GameModes gameMode;
+    private PlayerObserver playerObserver;
 
     public Game(){
         this.players = new HashMap<>();
@@ -60,5 +61,9 @@ public class Game {
 
     public void setPlayerObserver(PlayerObserver playerObserver) {
         this.playerObserver = playerObserver;
+    }
+
+    public void addSpeler(Player player) {
+        this.players.put(player.getId(),player);
     }
 }

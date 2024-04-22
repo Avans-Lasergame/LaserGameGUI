@@ -1,14 +1,9 @@
 package Gui;
 
-import Gui.GameCRUD.GameCreate;
-import Gui.GameCRUD.GameOverview;
-import Gui.GameCRUD.GameUpdate;
 import Gui.SpelerCRUD.SpelerCreate;
 import Gui.SpelerCRUD.SpelerOverview;
 import Gui.SpelerCRUD.SpelerUpdate;
-import Gui.TeamCRUD.TeamCreate;
-import Gui.TeamCRUD.TeamOverview;
-import Gui.TeamCRUD.TeamUpdate;
+import Gui.TeamCRUD;
 import Objects.*;
 import javafx.application.Application;
 import javafx.event.Event;
