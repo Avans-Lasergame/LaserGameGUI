@@ -1,5 +1,6 @@
-package Gui;
+package Gui.GameCRUD;
 
+import Gui.GUI;
 import Objects.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

@@ -1,5 +1,6 @@
-package Gui;
+package Gui.TeamCRUD;
 
+import Gui.GUI;
 import Objects.GameModes;
 import Objects.Player;
 import Objects.Team;
