@@ -1,33 +1,66 @@
 package Objects;
 
-public class Player{
-    private Hub hub;
-    private String playerName;
+import java.io.Serializable;
+import java.util.UUID;
+
+public class Player implements CRUD, Serializable {
+
+
+    private Vest vest;
+    private Gun gun;
+    private UUID id;
+    private String name;
     private int health;
+    private int maxHealth;
+    private boolean isDead;
 
-    public Player(Hub hub, String playerName){
-        this.hub = hub;
-        this.playerName = playerName;
-        this.health = 100;
+
+    public Player(String name, int health,int maxHealth, Gun gun, Vest vest) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.gun = gun;
+        this.health = health;
+        this.maxHealth = maxHealth;
+        this.vest = vest;
+        this.update();
+    }
+    public void setAll(String name, int health,int maxHealth, Gun gun, Vest vest) {
+        this.name = name;
+        this.health = health;
+        this.maxHealth = maxHealth;
+        this.gun = gun;
+        this.vest = vest;
+    }
+    public Vest getVest() {
+        return vest;
     }
 
-    // Get items
-    public Hub getPlayerHub(){
-        return this.hub;
-    }
-    public String getPlayerName(){
-        return this.playerName;
-    }
-    public int getPlayerHealth(){
-        return this.health;
+    public Gun getGun() {
+        return gun;
     }
 
-    // Set items
-    public int reduceHealth(){
-        if (this.hub.getVest().isHit()){
-            this.health = this.health-10;
-        }
-        return this.health;
+    public String getName() {
+        return name;
     }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void delete(Game game) {
+        game.deletePlayer(this.getId());
+    }
+
+
 
 }
