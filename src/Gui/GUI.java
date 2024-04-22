@@ -6,6 +6,8 @@ import Gui.SpelerCRUD.SpelerUpdate;
 import Gui.TeamCRUD;
 import Objects.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -35,18 +37,20 @@ public class GUI extends Application {
         stage.setTitle("Laser_game GUI");
         TabPane tabpane = new TabPane();
 
-
         Tab playerCRUD = new Tab("Player");
         HBox playerBox = new HBox();
-        playerBox.getChildren().addAll(SpelerCreate.getComponent(), SpelerUpdate.getComponent(), SpelerOverview.getComponent());
+        playerBox.getChildren().addAll(PlayerCRUD.getComponent());
         playerCRUD.setContent(playerBox);
         playerCRUD.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
                 if (playerCRUD.isSelected()){
-                    // TODO make this methode return data
-
                     previousTab = playerCRUD;
+                } else if (previousTab == playerCRUD){
+                    // Update Players data
+                    players = PlayerCRUD.getPlayers();
+
+                    System.out.println("Data updated!");
                 }
             }
         });
@@ -62,17 +66,9 @@ public class GUI extends Application {
                     previousTab = teamCRUD;
                 } else if (previousTab == teamCRUD){
                     // Update Players and Teams data
-                    setPlayers(TeamCRUD.getPlayers());
-                    setTeams(TeamCRUD.getTeams());
-                    for (Player player : players){
-                        System.out.println(player.getName());
-                    }
-                    for (Team team : teams){
-                        System.out.println(team.getTeamName());
-                        for (Player player : team.getPlayers()){
-                            System.out.println(player.getName());
-                        }
-                    }
+                    players = TeamCRUD.getPlayers();
+                    teams = TeamCRUD.getTeams();
+
                     System.out.println("Data updated!");
                 }
             }
@@ -91,19 +87,6 @@ public class GUI extends Application {
                     // Update Game data
                     game = GameCRUD.getGame();
                     if (game != null){
-                        if (game.getPlayers() != null){
-                            for (Player player : game.getPlayers().values()){
-                                System.out.println(player.getName());
-                            }
-                        }
-                        if (game.getTeams() != null){
-                            for (Team team : game.getTeams().values()){
-                                System.out.println(team.getTeamName());
-                                for (Player player : team.getPlayers()){
-                                    System.out.println(player.getName());
-                                }
-                            }
-                        }
                         System.out.println("Game set!");
                     } else {
                         System.out.println("No game found!");
@@ -111,8 +94,7 @@ public class GUI extends Application {
                 }
             }
         });
-
-
+        
         tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD);
         tabpane.setTabClosingPolicy(UNAVAILABLE);
         previousTab = tabpane.getTabs().get(0);
@@ -122,25 +104,14 @@ public class GUI extends Application {
         stage.show();
     }
 
-    public void setGame(Game game){
-        GUI.game = game;
-    }
-
     public static Game getGame(){
         return game;
-    }
-
-    public void setPlayers(ArrayList<Player> newPlayers){
-        players = newPlayers;
     }
 
     public static ArrayList<Player> getPlayers(){
         return players;
     }
 
-    public void setTeams(ArrayList<Team> newTeams){
-        teams = newTeams;
-    }
     public static ArrayList<Team> getTeams(){
         return teams;
     }

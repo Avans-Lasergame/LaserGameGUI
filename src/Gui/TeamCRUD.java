@@ -20,7 +20,7 @@ public class TeamCRUD{
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Team> selectableTeams = FXCollections.observableArrayList(); //Selectable Teams
     private static ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();  //Selected Players for a Team
-    private static int maximumPlayersInTeam = 4;
+    private static int maximumPlayersInTeam = 5;
     public static VBox getComponent() {
         // General settings
         VBox teamCrudBox = new VBox(20);
@@ -243,10 +243,10 @@ public class TeamCRUD{
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
             if (selectedTeam == null){
                 // Show alert
-                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-                errorPlayer.setHeaderText("Error!");
-                errorPlayer.setContentText("There was no Team selected!");
-                errorPlayer.showAndWait();
+                Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
+                errorTeam.setHeaderText("Error!");
+                errorTeam.setContentText("There was no Team selected!");
+                errorTeam.showAndWait();
                 return;
             }
             if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
