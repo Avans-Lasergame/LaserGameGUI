@@ -61,7 +61,7 @@ public class SpelerCreate {
             int health = Integer.parseInt(healthInput.getText());
             int maxHealth = Integer.parseInt(maxHealthInput.getText());
 
-            Player newItem = new Player(name, health, maxHealth, new Gun(), new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
+            Player newItem = new Player(name, health, maxHealth, new Gun(-1), new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
             game.addSpeler(newItem);
 
             System.out.println("created Speler: " + newItem);

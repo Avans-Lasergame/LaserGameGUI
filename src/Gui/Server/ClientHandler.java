@@ -1,23 +1,15 @@
-package Gui;
+package Gui.Server;
 
-import java.io.*;
-import java.net.*;
+import Gui.GUI;
+import Objects.Game;
+import Objects.Gun;
 
-public class Server {
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8888);
-        System.out.println("Server running on port 8888");
-
-        while (true) {
-            Socket clientSocket = serverSocket.accept();
-            System.out.println("Client connected: " + clientSocket.getInetAddress().getHostName());
-
-            ClientHandler clientHandler = new ClientHandler(clientSocket);
-            Thread thread = new Thread(clientHandler);
-            thread.start();
-        }
-    }
-}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Arrays;
 
 class ClientHandler implements Runnable {
     private Socket clientSocket;
@@ -27,6 +19,7 @@ class ClientHandler implements Runnable {
     }
 
     public void run() {
+        System.out.println("run");
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -34,7 +27,13 @@ class ClientHandler implements Runnable {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Received from client " + clientSocket.getInetAddress().getHostName() + ": " + inputLine);
-                out.println("Server received: " + inputLine);
+                int id = 0;
+                if (inputLine.contains(":")) {
+                    id = Integer.parseInt(inputLine.split(":", 2)[1]);
+                }
+                Gun gun = new Gun(id);
+                GUI.getGuns().add(gun);
+                out.println(inputLine);
             }
 
             out.close();

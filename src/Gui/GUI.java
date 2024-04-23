@@ -1,5 +1,6 @@
 package Gui;
 
+import Gui.Server.ServerGUI;
 import Gui.SpelerCRUD.SpelerCreate;
 import Gui.SpelerCRUD.SpelerOverview;
 import Gui.SpelerCRUD.SpelerUpdate;
@@ -21,6 +22,7 @@ import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 public class GUI extends Application {
     private static Game game = new Game();
     private static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<Gun> guns = new ArrayList<>();
     private static ArrayList<Team> teams = new ArrayList<>();
     private static Tab previousTab;
     public static void main(String[] args) {
@@ -112,8 +114,12 @@ public class GUI extends Application {
             }
         });
 
+        Tab serverTab = new Tab("Server");
+        serverTab.setContent(ServerGUI.getComponent());
 
-        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD);
+
+
+        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD,serverTab);
         tabpane.setTabClosingPolicy(UNAVAILABLE);
         previousTab = tabpane.getTabs().get(0);
 
@@ -130,10 +136,11 @@ public class GUI extends Application {
         return game;
     }
 
+
+
     public void setPlayers(ArrayList<Player> newPlayers){
         players = newPlayers;
     }
-
     public static ArrayList<Player> getPlayers(){
         return players;
     }
@@ -145,20 +152,24 @@ public class GUI extends Application {
         return teams;
     }
 
+    public static ArrayList<Gun> getGuns() {
+        return guns;
+    }
+
     private void generatePlayerTestData(){
         // Testdata
-        Player erik = new Player("Erik", 100,100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95,100, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90,100, new Gun(), new Vest());
+        Player erik = new Player("Erik", 100,100, new Gun(-1), new Vest());
+        Player storm = new Player("Storm", 95,100, new Gun(-1), new Vest());
+        Player daan = new Player("Daan", 90,100, new Gun(-1), new Vest());
         players.add(erik);
         players.add(storm);
         players.add(daan);
     }
 
     private void generateTeamTestData(){
-        Player erik = new Player("Erik", 100,100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95,100, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90,100, new Gun(), new Vest());
+        Player erik = new Player("Erik", 100,100, new Gun(-1), new Vest());
+        Player storm = new Player("Storm", 95,100, new Gun(-1), new Vest());
+        Player daan = new Player("Daan", 90,100, new Gun(-1), new Vest());
 
         // Testdata
         Team team1 = new Team("Team 1", erik);
