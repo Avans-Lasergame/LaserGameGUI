@@ -51,6 +51,15 @@ public class GameCRUD{
         }
         ObservableList<String> selectionList = FXCollections.observableList(selectionGameModes);
         selectGameType.setItems(selectionList);
+        selectGameType.setOnAction(event -> {
+            Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
+            if (selectedGameMode == String.valueOf(GameModes.TeamDeathmatch)) {
+                selectedPlayers.clear();
+            } else if (selectedGameMode == String.valueOf(GameModes.FreeForAll)) {
+                selectTeam1.getSelectionModel().select(null);
+                selectTeam2.getSelectionModel().select(null);
+            }
+        });
         selectGameType.getSelectionModel().selectFirst();
         //#endregion
 
@@ -89,19 +98,17 @@ public class GameCRUD{
                         player.equals(string)).findFirst().orElse(null);
             }
         });
-        selectTeam1.getSelectionModel().selectFirst();
         selectTeam1.setOnAction(e -> {
             Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
-            if (selectedGameMode == String.valueOf(GameModes.TeamDeathmatch)){
-                selectedPlayers.clear();
-            } 
-//            else {
-//                // Show alert
-//                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-//                errorPlayer.setHeaderText("Error!");
-//                errorPlayer.setContentText("You must change the GameMode to select Teams!");
-//                errorPlayer.showAndWait();
-//            }
+            Object selectedItem = selectTeam1.getSelectionModel().getSelectedItem();
+            if (selectedGameMode != String.valueOf(GameModes.TeamDeathmatch) &&
+                selectedItem != null) {
+                // Show alert
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("You must change the GameMode to select Teams!");
+                errorPlayer.showAndWait();
+            }
         });
         //#endregion
 
@@ -121,19 +128,17 @@ public class GameCRUD{
                         player.equals(string)).findFirst().orElse(null);
             }
         });
-        selectTeam2.getSelectionModel().selectFirst();
         selectTeam2.setOnAction(e -> {
             Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
-            if (selectedGameMode == String.valueOf(GameModes.TeamDeathmatch)){
-                selectedPlayers.clear();
+            Object selectedItem = selectTeam1.getSelectionModel().getSelectedItem();
+            if (selectedGameMode != String.valueOf(GameModes.TeamDeathmatch) &&
+                selectedItem != null) {
+                // Show alert
+                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+                errorPlayer.setHeaderText("Error!");
+                errorPlayer.setContentText("You must change the GameMode to select Teams!");
+                errorPlayer.showAndWait();
             }
-//            else {
-//                // Show alert
-//                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-//                errorPlayer.setHeaderText("Error!");
-//                errorPlayer.setContentText("You must change the GameMode to select Teams!");
-//                errorPlayer.showAndWait();
-//            }
         });
         //#endregion
 
