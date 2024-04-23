@@ -19,7 +19,10 @@ public class GameCRUD{
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();  //Selected Players for a game
     private static int maximumPlayerCount = 4;
-
+    // Items:
+    private static ComboBox selectPlayer = new ComboBox();
+    private static ComboBox selectTeam1 = new ComboBox();
+    private static ComboBox selectTeam2 = new ComboBox();
     public static VBox getComponent() {
         // General settings
         VBox gameCreateBox = new VBox(20);
@@ -53,7 +56,6 @@ public class GameCRUD{
 
         //#region Select Player ComboBox
         Label labelSelectPlayer = new Label("Select Players:");
-        ComboBox selectPlayer = new ComboBox();
         selectPlayer.setPrefWidth(200);
         ObservableList<Player> playerList = FXCollections.observableArrayList(players);
         selectPlayer.setItems(playerList);
@@ -73,7 +75,6 @@ public class GameCRUD{
 
         //#region Select Team 1 ComboBox
         Label labelSelectTeam1 = new Label("Select first Team:");
-        ComboBox selectTeam1 = new ComboBox();
         selectTeam1.setPrefWidth(200);
         ObservableList<Team> team1List = FXCollections.observableArrayList(teams);
         selectTeam1.setItems(team1List);
@@ -93,19 +94,19 @@ public class GameCRUD{
             Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
             if (selectedGameMode == String.valueOf(GameModes.TeamDeathmatch)){
                 selectedPlayers.clear();
-            } else {
-                // Show alert
-                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-                errorPlayer.setHeaderText("Error!");
-                errorPlayer.setContentText("You must change the GameMode to select Teams!");
-                errorPlayer.showAndWait();
-            }
+            } 
+//            else {
+//                // Show alert
+//                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+//                errorPlayer.setHeaderText("Error!");
+//                errorPlayer.setContentText("You must change the GameMode to select Teams!");
+//                errorPlayer.showAndWait();
+//            }
         });
         //#endregion
 
         //#region Select Team 2 ComboBox
         Label labelSelectTeam2 = new Label("Select second Team:");
-        ComboBox selectTeam2 = new ComboBox();
         selectTeam2.setPrefWidth(200);
         ObservableList<Team> team2List = FXCollections.observableArrayList(teams);
         selectTeam2.setItems(team2List);
@@ -125,13 +126,14 @@ public class GameCRUD{
             Object selectedGameMode = selectGameType.getSelectionModel().getSelectedItem();
             if (selectedGameMode == String.valueOf(GameModes.TeamDeathmatch)){
                 selectedPlayers.clear();
-            } else {
-                // Show alert
-                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-                errorPlayer.setHeaderText("Error!");
-                errorPlayer.setContentText("You must change the GameMode to select Teams!");
-                errorPlayer.showAndWait();
             }
+//            else {
+//                // Show alert
+//                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
+//                errorPlayer.setHeaderText("Error!");
+//                errorPlayer.setContentText("You must change the GameMode to select Teams!");
+//                errorPlayer.showAndWait();
+//            }
         });
         //#endregion
 
@@ -255,6 +257,22 @@ public class GameCRUD{
         columns.getChildren().addAll(firstRow, secondRow);
         gameCreateBox.getChildren().addAll(columns);
         return gameCreateBox;
+    }
+
+    public static void updateData(){
+        players = GUI.getPlayers();
+        teams = GUI.getTeams();
+
+        // selectPlayer
+        ObservableList<Player> playerList = FXCollections.observableArrayList(players);
+        selectPlayer.setItems(playerList);
+
+        // selectTeam1
+        ObservableList<Team> team1List = FXCollections.observableArrayList(teams);
+        selectTeam1.setItems(team1List);
+
+        ObservableList<Team> team2List = FXCollections.observableArrayList(teams);
+        selectTeam2.setItems(team2List);
     }
 
     public static Game getGame(){

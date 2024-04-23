@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class PlayerCRUD{
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
+    // Items:
+    private static ComboBox selectPlayer = new ComboBox();
     public static VBox getComponent() {
         // General settings
         VBox playerCrudBox = new VBox(20);
@@ -48,7 +50,6 @@ public class PlayerCRUD{
 
         //#region Select Player ComboBox
         Label labelSelectPlayer = new Label("Select Player:");
-        ComboBox selectPlayer = new ComboBox();
         selectPlayer.setPrefWidth(200);
         ObservableList<Player> playerList = FXCollections.observableArrayList(players);
         selectPlayer.setItems(playerList);
@@ -146,6 +147,18 @@ public class PlayerCRUD{
         columns.getChildren().addAll(firstRow, secondRow, thirdRow);
         playerCrudBox.getChildren().addAll(columns);
         return playerCrudBox;
+    }
+
+    public static void updateData(){
+        players = GUI.getPlayers();
+
+        // selectPlayer
+        // Fill starting list of Teams
+        for (Player player: players){
+            selectablePlayers.add(player);
+        }
+        ObservableList<Player> playerList = FXCollections.observableArrayList(players);
+        selectPlayer.setItems(playerList);
     }
 
     public static ArrayList<Player> getPlayers(){
