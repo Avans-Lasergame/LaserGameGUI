@@ -110,7 +110,7 @@ public class SpelerUpdate {
             int maxHealth = Integer.parseInt(maxHealthInput.getText());
 
 
-            player.setAll(name, health,maxHealth, new Gun(),new Vest());
+            player.setAll(name, health,maxHealth, new Gun(-1),new Vest());
 
             System.out.println("To:");
             System.out.println(player);

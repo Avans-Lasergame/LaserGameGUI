@@ -1,6 +1,8 @@
 package Gui;
 
-import Objects.*;
+import Objects.Gun;
+import Objects.Player;
+import Objects.Vest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -11,11 +13,13 @@ import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 
-public class PlayerCRUD{
+public class PlayerCRUD {
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
     // Items:
     private static ComboBox selectPlayer = new ComboBox();
+    private static ComboBox<Gun> gunComboBox = new ComboBox();
+
     public static VBox getComponent() {
         // General settings
         VBox playerCrudBox = new VBox(20);
@@ -25,7 +29,7 @@ public class PlayerCRUD{
         VBox thirdRow = new VBox(20);
         HBox columns = new HBox(100);
         // Fill starting list of Teams
-        for (Player player: players){
+        for (Player player : players) {
             selectablePlayers.add(player);
         }
 
@@ -46,7 +50,15 @@ public class PlayerCRUD{
         Label maxHealthInputLabel = new Label("MaxHealth: ");
         TextField maxHealthInput = new TextField();
         item3.getChildren().addAll(maxHealthInputLabel, maxHealthInput);
+
+        VBox item4 = new VBox(10);
+        selectPlayer.getItems().addAll(GUI.getGuns());
+        gunComboBox.setPrefWidth(100);
+
+        item4.getChildren().addAll(gunComboBox);
+
         //#endregion
+
 
         //#region Select Player ComboBox
         Label labelSelectPlayer = new Label("Select Player:");
@@ -55,9 +67,10 @@ public class PlayerCRUD{
         selectPlayer.setItems(playerList);
         selectPlayer.setConverter(new StringConverter<Player>() {
             @Override
-            public String toString(Player player){
+            public String toString(Player player) {
                 return player.getName();
             }
+
             @Override
             public Player fromString(String string) {
                 return (Player) selectPlayer.getItems().stream().filter(player ->
@@ -72,10 +85,10 @@ public class PlayerCRUD{
         Button buttonCreatePlayer = new Button("Create Player");
         buttonCreatePlayer.setOnAction(e -> {
             if (!nameInput.getText().equalsIgnoreCase("") && !healthInput.getText().equalsIgnoreCase("") &&
-                !maxHealthInput.getText().equalsIgnoreCase("")){
-                if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())){
+                    !maxHealthInput.getText().equalsIgnoreCase("")) {
+                if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())) {
                     // TODO: Creating of Guns and Vests + selections for this!
-                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), new Gun(), new Vest());
+                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), gunComboBox.getValue(), new Vest());
                     selectablePlayers.add(newPlayer);
                     selectPlayer.getItems().add(newPlayer);
                     players.add(newPlayer);
@@ -112,7 +125,7 @@ public class PlayerCRUD{
         Button buttonRemovePlayer = new Button("Delete selected Player");
         buttonRemovePlayer.setOnAction(e -> {
             Player selectedPlayer = (Player) selectPlayer.getSelectionModel().getSelectedItem();
-            if (selectedPlayer == null){
+            if (selectedPlayer == null) {
                 // Show alert
                 Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
                 errorPlayer.setHeaderText("Error!");
@@ -120,7 +133,7 @@ public class PlayerCRUD{
                 errorPlayer.showAndWait();
                 return;
             }
-            if (!selectedPlayer.getName().equalsIgnoreCase("")){
+            if (!selectedPlayer.getName().equalsIgnoreCase("")) {
                 selectPlayer.getItems().remove(selectedPlayer);
                 players.remove(selectedPlayer);
                 selectPlayer.getSelectionModel().selectFirst();
@@ -140,7 +153,7 @@ public class PlayerCRUD{
         });
         //#endregion
 
-        firstRow.getChildren().addAll(labelCreatePlayer, item1, item2, item3, buttonCreatePlayer);
+        firstRow.getChildren().addAll(labelCreatePlayer, item1, item2, item3, item4, buttonCreatePlayer);
         secondRow.getChildren().addAll(labelSelectPlayer, selectPlayer, buttonRemovePlayer);
 //        thirdRow.getChildren().addAll(labelSelectPlayer, selectPlayer, buttonAddPlayer, playerTable,
 //                buttonRemovePlayer, buttonRemoveTeam);
@@ -149,19 +162,20 @@ public class PlayerCRUD{
         return playerCrudBox;
     }
 
-    public static void updateData(){
+    public static void updateData() {
         players = GUI.getPlayers();
-
         // selectPlayer
-        // Fill starting list of Teams
-        for (Player player: players){
-            selectablePlayers.add(player);
-        }
+        // Fill starting list of Players
+        selectablePlayers.addAll(players);
+
         ObservableList<Player> playerList = FXCollections.observableArrayList(players);
         selectPlayer.setItems(playerList);
+
+        gunComboBox.getItems().setAll(GUI.getGuns());
+        System.out.println("set guns");
     }
 
-    public static ArrayList<Player> getPlayers(){
+    public static ArrayList<Player> getPlayers() {
         return players;
     }
 }
