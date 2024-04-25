@@ -18,7 +18,7 @@ public class PlayerCRUD {
     private static ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
     // Items:
     private static ComboBox selectPlayer = new ComboBox();
-    private static ComboBox gunComboBox = new ComboBox();
+    private static ComboBox<Gun> gunComboBox = new ComboBox();
 
     public static VBox getComponent() {
         // General settings
@@ -88,7 +88,7 @@ public class PlayerCRUD {
                     !maxHealthInput.getText().equalsIgnoreCase("")) {
                 if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())) {
                     // TODO: Creating of Guns and Vests + selections for this!
-                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), new Gun(-1), new Vest());
+                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), gunComboBox.getValue(), new Vest());
                     selectablePlayers.add(newPlayer);
                     selectPlayer.getItems().add(newPlayer);
                     players.add(newPlayer);
