@@ -17,16 +17,17 @@ class ClientHandler implements Runnable {
     }
 
     public void run() {
+        ServerGUI.log("New Client thread");
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                System.out.println("Received from client " + clientSocket.getInetAddress().getHostName() + ": " + inputLine);
+                ServerGUI.log(clientSocket.getInetAddress().getHostName() + ": " + inputLine);
                 int id = 0;
                 if (inputLine.contains(":")) {
-                    if (inputLine.split(":", 2)[0].equalsIgnoreCase("g")) {
+                    if (inputLine.split(":", 2)[0].equalsIgnoreCase("ID")) {
                         id = Integer.parseInt(inputLine.split(":", 2)[1]);
                         Gun gun = new Gun(id);
                         GUI.getGuns().add(gun);
