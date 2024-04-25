@@ -1,8 +1,9 @@
-package Gui;
+package Gui.SpelerCRUD;
 
+import Gui.GUI;
+import Objects.Game;
 import Objects.Gun;
 import Objects.Player;
-import Objects.Game;
 import Objects.Vest;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -35,12 +36,20 @@ public class SpelerCreate {
         inputsColumnBox.getChildren().add(nameInput);
         //#endregion
 
-        //#region Popularity TextField
+        //#region Health TextField
         Label healthInputLabel = new Label("Health: ");
         labelColumnBox.getChildren().add(healthInputLabel);
 
         TextField healthInput = new TextField();
         inputsColumnBox.getChildren().add(healthInput);
+        //#endregion
+
+        //#region MaxHealth TextField
+        Label maxHealthInputLabel = new Label("MaxHealth: ");
+        labelColumnBox.getChildren().add(maxHealthInputLabel);
+
+        TextField maxHealthInput = new TextField();
+        inputsColumnBox.getChildren().add(maxHealthInput);
         //#endregion
 
 
@@ -50,8 +59,9 @@ public class SpelerCreate {
 
             String name = nameInput.getText();
             int health = Integer.parseInt(healthInput.getText());
+            int maxHealth = Integer.parseInt(maxHealthInput.getText());
 
-            Player newItem = new Player(name,health,new Gun(),new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
+            Player newItem = new Player(name, health, maxHealth, new Gun(-1), new Vest()); // TODO: 04/04/2024 maak hier vest en gun goed aan
             game.addSpeler(newItem);
 
             System.out.println("created Speler: " + newItem);

@@ -1,9 +1,8 @@
 package Gui;
 
+import Gui.Server.ServerGUI;
 import Objects.*;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -17,8 +16,14 @@ import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 public class GUI extends Application {
     private static Game game = new Game();
     private static ArrayList<Player> players = new ArrayList<>();
+    private static ArrayList<Gun> guns = new ArrayList<>();
     private static ArrayList<Team> teams = new ArrayList<>();
-    private static Tab previousTab;
+    // Tabs:
+    private static Tab playerCRUD;
+    private static Tab teamCRUD;
+    private static Tab gameCRUD;
+    private static Tab serverTab;
+
     public static void main(String[] args) {
         launch(GUI.class);
     }
@@ -30,109 +35,102 @@ public class GUI extends Application {
 
         stage.setTitle("Laser_game GUI");
         TabPane tabpane = new TabPane();
+        tabpane.getSelectionModel().selectedItemProperty().addListener(
+                (ov, t, t1) -> handleTab(t,t1)
+        );
 
-
-        Tab playerCRUD = new Tab("Player");
+        playerCRUD = new Tab("Player");
         HBox playerBox = new HBox();
-        playerBox.getChildren().addAll(SpelerCreate.getComponent(), SpelerUpdate.getComponent(), SpelerOverview.getComponent());
+        playerBox.getChildren().addAll(PlayerCRUD.getComponent());
         playerCRUD.setContent(playerBox);
-        playerCRUD.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event t) {
-                if (playerCRUD.isSelected()){
-                    // TODO make this methode return data
 
-                    previousTab = playerCRUD;
-                }
-            }
-        });
-
-        Tab teamCRUD = new Tab("Team");
+        teamCRUD = new Tab("Team");
         HBox teamBox = new HBox();
-        teamBox.getChildren().addAll(TeamCreate.getComponent(), TeamUpdate.getComponent(), TeamOverview.getComponent());
+        teamBox.getChildren().addAll(TeamCRUD.getComponent());
         teamCRUD.setContent(teamBox);
-        teamCRUD.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event t) {
-                if (teamCRUD.isSelected()){
-                    previousTab = teamCRUD;
-                } else if (previousTab == teamCRUD){
-                    // Update Players and Teams data
-                    setPlayers(TeamOverview.getPlayers());
-                    setTeams(TeamOverview.getTeams());
-                    for (Player player : players){
-                        System.out.println(player.getName());
-                    }
-                    for (Team team : teams){
-                        System.out.println(team.getTeamName());
-                    }
-                    System.out.println("Data updated!");
-                }
-            }
-        });
 
-        Tab gameCRUD = new Tab("Game");
+        gameCRUD = new Tab("Game");
         HBox gameBox = new HBox();
-        gameBox.getChildren().addAll(GameCreate.getComponent(), GameUpdate.getComponent(), GameOverview.getComponent());
+        gameBox.getChildren().addAll(GameCRUD.getComponent());
         gameCRUD.setContent(gameBox);
-        gameCRUD.setOnSelectionChanged(new EventHandler<Event>() {
-            @Override
-            public void handle(Event t) {
-                if (gameCRUD.isSelected()){
-                    // TODO make this methode return data
 
-                    previousTab = gameCRUD;
-                }
-            }
-        });
+        serverTab = new Tab("Server");
+        serverTab.setContent(ServerGUI.getComponent());
 
-
-        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD);
+        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD, serverTab);
         tabpane.setTabClosingPolicy(UNAVAILABLE);
-        previousTab = tabpane.getTabs().get(0);
 
         Scene scene = new Scene(tabpane, 1200, 600);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setGame(Game game){
-        GUI.game = game;
-    }
-
-    public static Game getGame(){
+    public static Game getGame() {
         return game;
     }
 
-    public void setPlayers(ArrayList<Player> newPlayers){
-        players = newPlayers;
-    }
-
-    public static ArrayList<Player> getPlayers(){
+    public static ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public void setTeams(ArrayList<Team> newTeams){
-        teams = newTeams;
-    }
-    public static ArrayList<Team> getTeams(){
+    public static ArrayList<Team> getTeams() {
         return teams;
     }
 
-    private void generatePlayerTestData(){
+    public void handleTab(Tab previousTab, Tab current) {
+
+        if (previousTab == playerCRUD) {
+            // Update Players data
+            players = PlayerCRUD.getPlayers();
+            TeamCRUD.updateData();
+            GameCRUD.updateData();
+
+//            System.out.println("Data updated! from playerTab");
+        } else if (previousTab == teamCRUD) {
+            // Update Players and Teams data
+            players = TeamCRUD.getPlayers();
+            teams = TeamCRUD.getTeams();
+            PlayerCRUD.updateData();
+            GameCRUD.updateData();
+
+//            System.out.println("Data updated! from teamTab");
+        } else if (previousTab == gameCRUD) {
+            // Update Game data
+            game = GameCRUD.getGame();
+            if (game != null) {
+                System.out.println("Game set!");
+            } else {
+                System.out.println("No game found!");
+            }
+            PlayerCRUD.updateData();
+            TeamCRUD.updateData();
+        } else if (previousTab == serverTab) {
+            // Update Game data
+            GameCRUD.updateData();
+            PlayerCRUD.updateData();
+            TeamCRUD.updateData();
+            System.out.println("Data updated! from serverTab");
+        }
+    }
+
+    public static ArrayList<Gun> getGuns() {
+        return guns;
+    }
+
+    private void generatePlayerTestData() {
         // Testdata
-        Player erik = new Player("Erik", 100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+        Player erik = new Player("Erik", 100, 100, new Gun(-1), new Vest());
+        Player storm = new Player("Storm", 95, 100, new Gun(-1), new Vest());
+        Player daan = new Player("Daan", 90, 100, new Gun(-1), new Vest());
         players.add(erik);
         players.add(storm);
         players.add(daan);
     }
 
-    private void generateTeamTestData(){
-        Player erik = new Player("Erik", 100, new Gun(), new Vest());
-        Player storm = new Player("Storm", 95, new Gun(), new Vest());
-        Player daan = new Player("Daan", 90, new Gun(), new Vest());
+    private void generateTeamTestData() {
+        Player erik = new Player("Erik", 100, 100, new Gun(-1), new Vest());
+        Player storm = new Player("Storm", 95, 100, new Gun(-1), new Vest());
+        Player daan = new Player("Daan", 90, 100, new Gun(-1), new Vest());
 
         // Testdata
         Team team1 = new Team("Team 1", erik);
