@@ -262,8 +262,8 @@ public class GameCRUD{
         Label labelGameSettings = new Label("Game settings: ");
         Button buttonStartGame = new Button("Start Game");
         buttonStartGame.setOnAction(e -> {
-            if (game != null && !game.getTeams().isEmpty() && !game.isGameRunning() ||
-                    game != null && !game.getPlayers().isEmpty() && !game.isGameRunning()){
+            if (game != null && game.getTeams() != null && !game.isGameRunning() ||
+                    game != null && game.getPlayers() != null && !game.isGameRunning()){
                 game.startGame();
                 // Show alert
                 Alert startedGame = new Alert(Alert.AlertType.INFORMATION);
