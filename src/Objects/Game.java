@@ -14,10 +14,13 @@ public class Game {
     private HashMap<UUID, Team> teams;
     private GameModes gameMode;
     private PlayerObserver playerObserver;
+    private boolean gameRunning;
 
     public Game(){
         this.players = new HashMap<>();
+        this.teams = new HashMap<>();
         this.playerObserver = new PlayerObserver(this);
+        this.gameRunning = false;
     }
 
     public Game(GameModes gameMode, ObservableList<Player> players){
@@ -26,6 +29,7 @@ public class Game {
             this.players.put(player.getId(), player);
         }
         this.gameMode = gameMode;
+        this.gameRunning = false;
     }
 
     public Game(GameModes gameMode, Team team1, Team team2){
@@ -33,6 +37,7 @@ public class Game {
         this.teams.put(team1.getId(), team1);
         this.teams.put(team2.getId(), team2);
         this.gameMode = gameMode;
+        this.gameRunning = false;
     }
 
     public HashMap<UUID, Player> getPlayers() {
@@ -65,5 +70,17 @@ public class Game {
 
     public void addSpeler(Player player) {
         this.players.put(player.getId(),player);
+    }
+
+    public void startGame() {
+        this.gameRunning = true;
+    }
+
+    public void endGame(){
+        this.gameRunning = false;
+    }
+
+    public boolean isGameRunning(){
+        return this.gameRunning;
     }
 }

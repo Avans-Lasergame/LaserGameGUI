@@ -72,7 +72,8 @@ public class PlayerCRUD{
         Button buttonCreatePlayer = new Button("Create Player");
         buttonCreatePlayer.setOnAction(e -> {
             if (!nameInput.getText().equalsIgnoreCase("") && !healthInput.getText().equalsIgnoreCase("") &&
-                !maxHealthInput.getText().equalsIgnoreCase("")){
+                !maxHealthInput.getText().equalsIgnoreCase("") && nameInput.getText().length() <= 20 &&
+                    healthInput.getText().length() <= 3 && maxHealthInput.getText().length() <= 3){
                 if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())){
                     // TODO: Creating of Guns and Vests + selections for this!
                     Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), new Gun(), new Vest());
@@ -142,8 +143,6 @@ public class PlayerCRUD{
 
         firstRow.getChildren().addAll(labelCreatePlayer, item1, item2, item3, buttonCreatePlayer);
         secondRow.getChildren().addAll(labelSelectPlayer, selectPlayer, buttonRemovePlayer);
-//        thirdRow.getChildren().addAll(labelSelectPlayer, selectPlayer, buttonAddPlayer, playerTable,
-//                buttonRemovePlayer, buttonRemoveTeam);
         columns.getChildren().addAll(firstRow, secondRow, thirdRow);
         playerCrudBox.getChildren().addAll(columns);
         return playerCrudBox;
