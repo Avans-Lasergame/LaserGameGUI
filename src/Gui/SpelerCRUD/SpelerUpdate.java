@@ -1,5 +1,6 @@
-package Gui;
+package Gui.SpelerCRUD;
 
+import Gui.GUI;
 import Objects.Gun;
 import Objects.Player;
 import Objects.Game;
@@ -75,6 +76,13 @@ public class SpelerUpdate {
         javafx.scene.control.TextField healthInput = new javafx.scene.control.TextField();
         inputsColumnBox.getChildren().add(healthInput);
         //#endregion
+        //#region MaxHealth TextField
+        Label maxHealthInputLabel = new Label("MaxHealth: ");
+        labelColumnBox.getChildren().add(maxHealthInputLabel);
+
+        javafx.scene.control.TextField maxHealthInput = new javafx.scene.control.TextField();
+        inputsColumnBox.getChildren().add(maxHealthInput);
+        //#endregion
 
         SpelerOptionsComboBox.setOnAction(e -> {
             //get the scheduleItem that was selected
@@ -83,6 +91,8 @@ public class SpelerUpdate {
             nameInput.setText(selectedPlayer.getName());
             //fill health
             healthInput.setText(Integer.toString(selectedPlayer.getHealth()));
+            //fill maxHealth
+            maxHealthInput.setText(Integer.toString(selectedPlayer.getHealth()));
         });
 
 
@@ -97,9 +107,10 @@ public class SpelerUpdate {
 
             String name = nameInput.getText();
             int health = Integer.parseInt(healthInput.getText());
+            int maxHealth = Integer.parseInt(maxHealthInput.getText());
 
 
-            player.setAll(name, health, new Gun(),new Vest());
+            player.setAll(name, health,maxHealth, new Gun(),new Vest());
 
             System.out.println("To:");
             System.out.println(player);

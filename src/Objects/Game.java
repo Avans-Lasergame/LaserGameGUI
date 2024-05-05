@@ -1,6 +1,8 @@
 package Objects;
 
 
+import Objects.Observers.PlayerObserver;
+
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -11,9 +13,11 @@ public class Game {
     private HashMap<UUID, Player> players;
     private HashMap<UUID, Team> teams;
     private GameModes gameMode;
+    private PlayerObserver playerObserver;
 
     public Game(){
         this.players = new HashMap<>();
+        this.playerObserver = new PlayerObserver(this);
     }
 
     public Game(GameModes gameMode, ObservableList<Player> players){
@@ -55,4 +59,11 @@ public class Game {
         return this.gameMode;
     }
 
+    public void setPlayerObserver(PlayerObserver playerObserver) {
+        this.playerObserver = playerObserver;
+    }
+
+    public void addSpeler(Player player) {
+        this.players.put(player.getId(),player);
+    }
 }

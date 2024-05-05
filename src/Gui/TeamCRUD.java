@@ -1,5 +1,7 @@
 package Gui;
 
+import Gui.GUI;
+import Objects.GameModes;
 import Objects.Player;
 import Objects.Team;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,7 +20,11 @@ public class TeamCRUD{
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Team> selectableTeams = FXCollections.observableArrayList(); //Selectable Teams
     private static ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();  //Selected Players for a Team
-    private static int maximumPlayersInTeam = 4;
+    private static int maximumPlayersInTeam = 5;
+    // Items:
+    private static ComboBox selectTeamCaptain = new ComboBox();
+    private static ComboBox selectTeam = new ComboBox();
+    private static ComboBox selectPlayer = new ComboBox();
     public static VBox getComponent() {
         // General settings
         VBox teamCrudBox = new VBox(20);
@@ -29,13 +35,12 @@ public class TeamCRUD{
         HBox columns = new HBox(100);
         // Fill starting list of Teams
         for (Team team : teams){
-           selectableTeams.add(team);
+            selectableTeams.add(team);
         }
 
         //#region Create new Team
         Label labelCreateTeam = new Label("Create new Team:");
         TextField createTeam = new TextField();
-        ComboBox selectTeamCaptain = new ComboBox();
         ObservableList<Player> allPlayers = FXCollections.observableArrayList(players);
         selectTeamCaptain.setItems(allPlayers);
         selectTeamCaptain.setConverter(new StringConverter<Player>() {
@@ -64,7 +69,6 @@ public class TeamCRUD{
 
         //#region Select Team ComboBox
         Label labelSelectTeam = new Label("Select a Team:");
-        ComboBox selectTeam = new ComboBox();
         selectTeam.setPrefWidth(200);
         ObservableList<Team> teamsList = FXCollections.observableList(selectableTeams);
         selectTeam.setItems(teamsList);
@@ -94,7 +98,6 @@ public class TeamCRUD{
 
         //#region Select Player ComboBox
         Label labelSelectPlayer = new Label("Select Players:");
-        ComboBox selectPlayer = new ComboBox();
         selectPlayer.setPrefWidth(200);
         ObservableList<Player> playerList = FXCollections.observableArrayList(players);
         selectPlayer.setItems(playerList);
@@ -241,10 +244,10 @@ public class TeamCRUD{
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
             if (selectedTeam == null){
                 // Show alert
-                Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
-                errorPlayer.setHeaderText("Error!");
-                errorPlayer.setContentText("There was no Team selected!");
-                errorPlayer.showAndWait();
+                Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
+                errorTeam.setHeaderText("Error!");
+                errorTeam.setContentText("There was no Team selected!");
+                errorTeam.showAndWait();
                 return;
             }
             if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
@@ -274,6 +277,28 @@ public class TeamCRUD{
         columns.getChildren().addAll(firstRow, secondRow, thirdRow);
         teamCrudBox.getChildren().addAll(columns);
         return teamCrudBox;
+    }
+
+    public static void updateData(){
+        players = GUI.getPlayers();
+        teams = GUI.getTeams();
+
+        // selectTeamCaptain
+        ObservableList<Player> allPlayers = FXCollections.observableArrayList(players);
+        selectTeamCaptain.setItems(allPlayers);
+
+        // selectTeam
+        selectableTeams.clear();
+        // Fill starting list of Teams
+        for (Team team : teams){
+            selectableTeams.add(team);
+        }
+        ObservableList<Team> teamsList = FXCollections.observableList(selectableTeams);
+        selectTeam.setItems(teamsList);
+
+        // selectPlayer
+        ObservableList<Player> playerList = FXCollections.observableArrayList(players);
+        selectPlayer.setItems(playerList);
     }
 
     public static ArrayList<Player> getPlayers(){
