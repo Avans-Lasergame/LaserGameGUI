@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
@@ -34,13 +35,13 @@ public class GUI extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
         generatePlayerTestData();
         generateTeamTestData();
 
         stage.setTitle("Laser_game GUI");
         tabpane.getSelectionModel().selectedItemProperty().addListener(
-                (ov, t, t1) -> handleTab(t,t1)
+                (ov, t, t1) -> handleTab(t, t1)
         );
 
         //#region PlayerCRUD
@@ -62,7 +63,6 @@ public class GUI extends Application {
         HBox gameBox = new HBox();
         gameBox.getChildren().addAll(GameCRUD.getComponent());
         gameCRUD.setContent(gameBox);
-        serverTab.setContent(ServerGUI.getComponent());
 
         //#endregion
 
@@ -83,14 +83,14 @@ public class GUI extends Application {
         // Handle with its own event, because we don't have to update data
         gameOverviewTab.setOnSelectionChanged(event -> {
             game = GameCRUD.getGame();
-            if (GUI.getGame() == null || !GUI.getGame().isGameRunning()){
-                tabpane.getSelectionModel().select(previousTab);
+            if (GUI.getGame() == null || !GUI.getGame().isGameRunning()) {
+                tabpane.getSelectionModel().select(gameCRUD);
                 // Show alert
                 Alert errorGame = new Alert(Alert.AlertType.INFORMATION);
                 errorGame.setHeaderText("Error!");
                 errorGame.setContentText("You must create or start a Game before you can view it!");
                 errorGame.showAndWait();
-            } else{
+            } else {
                 //#region Populate this tab with the Teams / Players of this Game
                 pane.getChildren().clear();
                 Font textSizeFont = new Font(30);
@@ -108,21 +108,21 @@ public class GUI extends Application {
                 centerBox.setPadding(new Insets(40));
 
                 // If game has Players (FFA), put them in the middle
-                if (game.getPlayers() != null){
+                if (game.getPlayers() != null) {
                     Label labelPlayers = new Label("Players: ");
                     labelPlayers.setFont(textSizeFont);
                     labelPlayers.setStyle("-fx-background-color: rgb(185, 0, 230)");
                     middleBox.getChildren().add(labelPlayers);
-                    for (Player player : game.getPlayers().values()){
+                    for (Player player : game.getPlayers().values()) {
                         Label labelPlayer = new Label(player.getName());
                         labelPlayer.setFont(textSizeFont);
                         labelPlayer.setStyle("-fx-background-color: rgb(185, 0, 230)");
                         middleBox.getChildren().add(labelPlayer);
                     }
-                } else{
+                } else {
                     // If game has no Players (TDM), get the Players form the 2 Teams
                     VBox theBox = team1Box;
-                    for (Team team : game.getTeams().values()){
+                    for (Team team : game.getTeams().values()) {
                         Label labelTeamName = new Label("Team: " + team.getTeamName());
                         labelTeamName.setFont(textSizeFont);
                         if (theBox == team1Box) {
@@ -133,7 +133,7 @@ public class GUI extends Application {
                             labelTeamName.setStyle("-fx-background-color: rgb(0, 0, 230)");
                         }
                         theBox.getChildren().add(labelTeamName);
-                        for (Player player : team.getPlayers()){
+                        for (Player player : team.getPlayers()) {
                             Label labelPlayer = new Label(player.getName());
                             labelPlayer.setFont(textSizeFont);
                             if (theBox == team1Box) {
@@ -158,7 +158,7 @@ public class GUI extends Application {
                 labelCredit2.setFont(new Font(12));
                 labelCredit2.setTextFill(Color.valueOf("white"));
                 labelCredit2.setStyle("-fx-background-color: rgb(0, 0, 0)");
-                
+
                 VBox finalBox = new VBox(centerBox, gameOverviewBox, labelCredit1, labelCredit2);
                 pane.getChildren().addAll(finalBox);
                 //#endregion
@@ -166,10 +166,12 @@ public class GUI extends Application {
         });
         //#endregion
 
-        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD, gameOverviewTab);
-
+        //#region Server Tab
         serverTab = new Tab("Server");
-        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD, serverTab);
+        serverTab.setContent(ServerGUI.getComponent());
+        //#endregion
+
+        tabpane.getTabs().addAll(playerCRUD, teamCRUD, gameCRUD, gameOverviewTab, serverTab);
         tabpane.setTabClosingPolicy(UNAVAILABLE);
 
         Scene scene = new Scene(tabpane, 1200, 600);
@@ -200,7 +202,7 @@ public class GUI extends Application {
 //            System.out.println("Data updated! from playerTab");
         } else if (previousTab == teamCRUD) {
             System.out.println("Players updated!");
-        } else if (previousTab == teamCRUD){
+        } else if (previousTab == teamCRUD) {
             // Update Players and Teams data
             players = TeamCRUD.getPlayers();
             teams = TeamCRUD.getTeams();
@@ -250,9 +252,6 @@ public class GUI extends Application {
         // Testdata
         Team team1 = new Team("Team 1", erik);
         team1.addPlayer(storm);
-        team1.addPlayer(test1);
-        team1.addPlayer(test2);
-        team1.addPlayer(test3);
         Team team2 = new Team("Team 2", daan);
         teams.add(team1);
         teams.add(team2);
