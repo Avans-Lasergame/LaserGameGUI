@@ -29,6 +29,7 @@ public class GameCRUD{
         gameCreateBox.setPadding(new Insets(20));
         VBox firstRow = new VBox(20);
         VBox secondRow = new VBox(20);
+        VBox thirdRow = new VBox(20);
         HBox columns = new HBox(100);
 
         //#region List of players TableView
@@ -238,7 +239,8 @@ public class GameCRUD{
                 // Team Deathmatch
                 Team team1 = (Team) selectTeam1.getSelectionModel().getSelectedItem();
                 Team team2 = (Team) selectTeam2.getSelectionModel().getSelectedItem();
-                if (!team1.equals(null) && !team2.equals(null) && team1 != team2){
+                if (team1 != null && team2 != null && team1 != team2 &&
+                        !team1.getTeamName().equalsIgnoreCase("") && !team2.getTeamName().equalsIgnoreCase("")){
                     game = new Game(GameModes.TeamDeathmatch, team1, team2);
                     // Show alert
                     Alert createdGame = new Alert(Alert.AlertType.INFORMATION);
@@ -256,10 +258,54 @@ public class GameCRUD{
         });
         //#endregion
 
+        //#region Start Game
+        Label labelGameSettings = new Label("Game settings: ");
+        Button buttonStartGame = new Button("Start Game");
+        buttonStartGame.setOnAction(e -> {
+            if (game != null && game.getTeams() != null && !game.isGameRunning() ||
+                    game != null && game.getPlayers() != null && !game.isGameRunning()){
+                game.startGame();
+                // Show alert
+                Alert startedGame = new Alert(Alert.AlertType.INFORMATION);
+                startedGame.setHeaderText("Success!");
+                startedGame.setContentText("Game started!");
+                startedGame.showAndWait();
+            } else {
+                // Show alert
+                Alert errorGame = new Alert(Alert.AlertType.INFORMATION);
+                errorGame.setHeaderText("Error!");
+                errorGame.setContentText("Game has not been made or is still running!");
+                errorGame.showAndWait();
+            }
+        });
+        //#endregion
+
+        //#region End Game
+        Button buttonEndGame = new Button("End Game");
+        buttonEndGame.setOnAction(e -> {
+            if (game != null && !game.getTeams().isEmpty() && game.isGameRunning() ||
+                    game != null && !game.getPlayers().isEmpty() && game.isGameRunning()){
+                game.endGame();
+                // Show alert
+                Alert endedGame = new Alert(Alert.AlertType.INFORMATION);
+                endedGame.setHeaderText("Success!");
+                endedGame.setContentText("Game ended!");
+                endedGame.showAndWait();
+            } else {
+                // Show alert
+                Alert errorGame = new Alert(Alert.AlertType.INFORMATION);
+                errorGame.setHeaderText("Error!");
+                errorGame.setContentText("Game has not been made or has not started yet!");
+                errorGame.showAndWait();
+            }
+        });
+        //#endregion
+
         firstRow.getChildren().addAll(labelSelectGameType, selectGameType, labelSelectPlayer, selectPlayer,
                 buttonAddPlayer, playerTable, buttonRemovePlayer);
         secondRow.getChildren().addAll(labelSelectTeam1, selectTeam1, labelSelectTeam2, selectTeam2, buttonCreateGame);
-        columns.getChildren().addAll(firstRow, secondRow);
+        thirdRow.getChildren().addAll(labelGameSettings, buttonStartGame, buttonEndGame);
+        columns.getChildren().addAll(firstRow, secondRow, thirdRow);
         gameCreateBox.getChildren().addAll(columns);
         return gameCreateBox;
     }
