@@ -1,6 +1,5 @@
 package Gui;
 
-import Gui.Server.ServerGUI;
 import Objects.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -236,18 +235,18 @@ public class GUI extends Application {
 
     private void generatePlayerTestData() {
         // Testdata
-        Player erik = new Player("Erik", 100, 100, new Gun(-1), new Vest());
-        Player storm = new Player("Storm", 95, 100, new Gun(-1), new Vest());
-        Player daan = new Player("Daan", 90, 100, new Gun(-1), new Vest());
+        Player erik = new Player("Erik", 100, 100, new Gun(-1));
+        Player storm = new Player("Storm", 95, 100, new Gun(-1));
+        Player daan = new Player("Daan", 90, 100, new Gun(-1));
         players.add(erik);
         players.add(storm);
         players.add(daan);
     }
 
     private void generateTeamTestData() {
-        Player erik = new Player("Erik", 100, 100, new Gun(-1), new Vest());
-        Player storm = new Player("Storm", 95, 100, new Gun(-1), new Vest());
-        Player daan = new Player("Daan", 90, 100, new Gun(-1), new Vest());
+        Player erik = new Player("Erik", 100, 100, new Gun(-1));
+        Player storm = new Player("Storm", 95, 100, new Gun(-1));
+        Player daan = new Player("Daan", 90, 100, new Gun(-1));
 
         // Testdata
         Team team1 = new Team("Team 1", erik);

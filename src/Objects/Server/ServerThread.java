@@ -1,5 +1,6 @@
-package Gui.Server;
+package Objects.Server;
 
+import Gui.ServerGUI;
 import javafx.application.Platform;
 
 import java.io.IOException;

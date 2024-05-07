@@ -2,7 +2,6 @@ package Gui;
 
 import Objects.Gun;
 import Objects.Player;
-import Objects.Vest;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -89,7 +88,7 @@ public class PlayerCRUD {
                     healthInput.getText().length() <= 3 && maxHealthInput.getText().length() <= 3){
                 if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())){
                     // TODO: Creating of Guns and Vests + selections for this!
-                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), gunComboBox.getValue(), new Vest());
+                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), gunComboBox.getValue());
                     selectablePlayers.add(newPlayer);
                     selectPlayer.getItems().add(newPlayer);
                     players.add(newPlayer);

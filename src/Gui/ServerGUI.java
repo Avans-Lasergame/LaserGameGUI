@@ -1,6 +1,6 @@
-package Gui.Server;
+package Gui;
 
-import Gui.GUI;
+import Objects.Server.ServerThread;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

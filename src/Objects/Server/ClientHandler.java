@@ -1,6 +1,7 @@
-package Gui.Server;
+package Objects.Server;
 
 import Gui.GUI;
+import Gui.ServerGUI;
 import Objects.Gun;
 
 import java.io.BufferedReader;
@@ -23,20 +24,25 @@ class ClientHandler implements Runnable {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                ServerGUI.log(clientSocket.getInetAddress().getHostName() + ": " + inputLine);
-                int id = 0;
-                if (inputLine.contains(":")) {
-                    if (inputLine.split(":", 2)[0].equalsIgnoreCase("ID")) {
-                        id = Integer.parseInt(inputLine.split(":", 2)[1]);
-                        Gun gun = new Gun(id);
-                        GUI.getGuns().add(gun);
-                    } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hit")) {
+//            while ((inputLine = in.readLine()) != null) {
+            while (clientSocket.isConnected()) {
+                if ((inputLine = in.readLine()) != null) {
 
+                    ServerGUI.log(clientSocket.getInetAddress().getHostName() + ": " + inputLine);
+                    int id = 0;
+                    if (inputLine.contains(":")) {
+                        if (inputLine.split(":", 2)[0].equalsIgnoreCase("ID")) {
+                            id = Integer.parseInt(inputLine.split(":", 2)[1]);
+                            Gun gun = new Gun(id);
+                            GUI.getGuns().add(gun);
+                        } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hit")) {
+
+                        }
                     }
                 }
 //                out.println(inputLine);
             }
+            System.out.println("stop");
 
             out.close();
             in.close();
