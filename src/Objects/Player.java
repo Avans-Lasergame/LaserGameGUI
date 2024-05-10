@@ -49,6 +49,15 @@ public class Player implements Serializable {
         game.deletePlayer(this.getId());
     }
 
+    public void isHit(){
+        // 0 wordt hierbij de damage die ontvangen wordt vanuit de gun
+        int damage = 0;
+        this.health -= damage;
+
+        if (this.health <= 0){
+            isDead = true;
+        }
+    }
 
 
 }

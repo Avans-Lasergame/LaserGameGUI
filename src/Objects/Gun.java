@@ -7,4 +7,9 @@ public class Gun {
     public Gun(int ID) {
         this.ID = ID;
     }
+
+    @Override
+    public String toString(){
+        return "Gun<" + ID + ">";
+    }
 }
