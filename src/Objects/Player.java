@@ -1,9 +1,11 @@
 package Objects;
 
+import Objects.Callbacks.PlayerCallback;
+
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Player implements Serializable {
+public class Player implements Serializable, PlayerCallback {
 
 
     private Gun gun;
@@ -13,20 +15,22 @@ public class Player implements Serializable {
     private int maxHealth;
     private boolean isDead;
 
-
     public Player(String name, int health,int maxHealth, Gun gun) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.gun = gun;
         this.health = health;
         this.maxHealth = maxHealth;
+        gun.setCallback(this);
     }
     public void setAll(String name, int health,int maxHealth, Gun gun) {
         this.name = name;
         this.health = health;
         this.maxHealth = maxHealth;
         this.gun = gun;
+        gun.setCallback(this);
     }
+
 
     public Gun getGun() {
         return gun;
@@ -50,5 +54,8 @@ public class Player implements Serializable {
     }
 
 
-
+    @Override
+    public void isHit() {
+        // TODO: 13/05/2024 get hit here
+    }
 }
