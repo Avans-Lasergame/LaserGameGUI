@@ -97,7 +97,7 @@ public class Game {
     private void calculateBlinkRates() {
         for (UUID uuid : players.keySet()) {
             if (players.get(uuid).getHealth() > 0) {
-                int i = players.get(uuid).getHealth() / players.get(uuid).getMaxHealth();
+                double i = (double) players.get(uuid).getHealth() / players.get(uuid).getMaxHealth();
                 players.get(uuid).getGun().blink(i, 0, 255, 0);
             }
         }

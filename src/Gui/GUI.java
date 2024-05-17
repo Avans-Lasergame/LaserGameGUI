@@ -15,13 +15,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 
 public class GUI extends Application {
     private static Game game = new Game();
     private static ArrayList<Player> players = new ArrayList<>();
-    private static ArrayList<Gun> guns = new ArrayList<>();
+    private static CopyOnWriteArrayList<Gun> guns = new CopyOnWriteArrayList<>();
     private static ArrayList<Team> teams = new ArrayList<>();
     private static final TabPane tabpane = new TabPane();
     private static Tab playerCRUD;
@@ -147,7 +148,7 @@ public class GUI extends Application {
         }
     }
 
-    public static ArrayList<Gun> getGuns() {
+    public static CopyOnWriteArrayList<Gun> getGuns() {
         return guns;
     }
 

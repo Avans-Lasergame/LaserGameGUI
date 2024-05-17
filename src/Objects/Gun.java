@@ -32,7 +32,7 @@ public class Gun {
         this.playerCallback = playerCallback;
     }
 
-    public void blink(int i, int r, int g, int b) {
+    public void blink(double i, int r, int g, int b) {
         this.gunCallback.blink(i, r, g, b);
     }
 
@@ -40,10 +40,7 @@ public class Gun {
         this.gunCallback.changeLED(r, g, b);
     }
 
-    @Override
-    public String toString() {
-        return "Gun{" +
-                "ID=" + ID +
-                '}';
+    public int getID() {
+        return ID;
     }
 }

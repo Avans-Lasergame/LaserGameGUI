@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.SQLOutput;
 
 class ClientHandler implements Runnable, GunCallback {
     private Socket clientSocket;
@@ -39,10 +38,29 @@ class ClientHandler implements Runnable, GunCallback {
                         if (inputLine.split(":", 2)[0].equalsIgnoreCase("ID")) {
                             id = Integer.parseInt(inputLine.split(":", 2)[1]);
                             gun = new Gun(id);
-                            GUI.getGuns().add(gun);
+                            System.out.println("new gun:" + id);
+                            if (!GUI.getGuns().isEmpty()) {
+                                boolean found = false;
+                                for (Gun gun : GUI.getGuns()) {
+                                    if (gun.getID() == this.gun.getID()) {
+                                        this.gun = gun;
+                                        found = true;
+                                        System.out.println("found");
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    System.out.println("not found");
+                                    GUI.getGuns().add(gun);
+                                }
+                            }else {
+                                System.out.println("empty");
+                                GUI.getGuns().add(gun);
+                            }
+
                             gun.setCallback(this);
                         } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hitby")) {
-                            if(gun != null) {
+                            if (gun != null) {
                                 gun.isHit();
                             }
                         }
@@ -63,15 +81,15 @@ class ClientHandler implements Runnable, GunCallback {
     @Override
     public void changeLED(int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            out.println("led,"+","+r+","+g+","+b+".");
+            out.println("led," + "," + r + "," + g + "," + b + ".");
         }
     }
 
     @Override
-    public void blink(int i, int r, int g, int b) {
+    public void blink(double i, int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            System.out.println("ledblink");
-            out.println("ledblink,"+i+","+r+","+g+","+b+".");
+            System.out.println("ledblink"+gun.getID());
+            out.println("ledblink," + i + "," + r + "," + g + "," + b + ".");
         }
     }
 }

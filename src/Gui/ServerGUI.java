@@ -31,6 +31,7 @@ public class ServerGUI {
         Button deleteGuns = new Button("Delete all guns");
         deleteGuns.setOnAction(e -> {
             GUI.getGuns().clear();
+            PlayerCRUD.updateData();
         });
         logArea = new TextArea();
         logArea.setMaxWidth(200);
