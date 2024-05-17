@@ -13,6 +13,11 @@ public class Gun {
         this.ID = ID;
     }
 
+    @Override
+    public String toString(){
+        return "Gun<" + ID + ">";
+    }
+    
     public void isHit() {
         playerCallback.isHit();
     }
