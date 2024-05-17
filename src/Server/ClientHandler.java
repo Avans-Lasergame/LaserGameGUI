@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.SQLOutput;
 
 class ClientHandler implements Runnable, GunCallback {
     private Socket clientSocket;
@@ -40,7 +41,7 @@ class ClientHandler implements Runnable, GunCallback {
                             gun = new Gun(id);
                             GUI.getGuns().add(gun);
                             gun.setCallback(this);
-                        } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hit")) {
+                        } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hitby")) {
                             if(gun != null) {
                                 gun.isHit();
                             }
@@ -63,6 +64,14 @@ class ClientHandler implements Runnable, GunCallback {
     public void changeLED(int r, int g, int b) {
         if (clientSocket.isConnected()) {
             out.println("led,"+","+r+","+g+","+b+".");
+        }
+    }
+
+    @Override
+    public void blink(int i, int r, int g, int b) {
+        if (clientSocket.isConnected()) {
+            System.out.println("ledblink");
+            out.println("ledblink,"+i+","+r+","+g+","+b+".");
         }
     }
 }

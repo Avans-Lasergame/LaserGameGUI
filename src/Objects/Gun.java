@@ -14,12 +14,10 @@ public class Gun {
     }
 
     public void isHit() {
+        System.out.println("hit");
         playerCallback.isHit();
     }
 
-    public void changeLED(int r, int g, int b) {
-        this.gunCallback.changeLED(r, g, b);
-    }
 
     public void setCallback(GunCallback gunCallback) {
         this.gunCallback = gunCallback;
@@ -27,5 +25,20 @@ public class Gun {
 
     public void setCallback(PlayerCallback playerCallback) {
         this.playerCallback = playerCallback;
+    }
+
+    public void blink(int i, int r, int g, int b) {
+        this.gunCallback.blink(i, r, g, b);
+    }
+
+    public void changeLED(int r, int g, int b) {
+        this.gunCallback.changeLED(r, g, b);
+    }
+
+    @Override
+    public String toString() {
+        return "Gun{" +
+                "ID=" + ID +
+                '}';
     }
 }
