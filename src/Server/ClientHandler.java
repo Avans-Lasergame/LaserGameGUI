@@ -1,4 +1,4 @@
-package Objects.Server;
+package Server;
 
 import Gui.GUI;
 import Gui.ServerGUI;
@@ -64,6 +64,5 @@ class ClientHandler implements Runnable, GunCallback {
         if (clientSocket.isConnected()) {
             out.println("led,"+","+r+","+g+","+b+".");
         }
-
     }
 }
