@@ -36,8 +36,8 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        generatePlayerTestData();
-        generateTeamTestData();
+//        generatePlayerTestData();
+//        generateTeamTestData();
 
         stage.setTitle("Laser_game GUI");
         tabpane.getSelectionModel().selectedItemProperty().addListener(
@@ -168,12 +168,14 @@ public class GUI extends Application {
         Player test1 = new Player("Test1", 90, 100, new Gun(-1));
         Player test2 = new Player("Test2", 90, 100, new Gun(-1));
         Player test3 = new Player("Test3", 90, 100, new Gun(-1));
+        Player test4 = new Player("Maximale naamlengte!", 90, 100, new Gun(-1));
         players.add(erik);
         players.add(storm);
         players.add(daan);
         players.add(test1);
         players.add(test2);
         players.add(test3);
+        players.add(test4);
     }
 
     private void generateTeamTestData() {
@@ -194,5 +196,4 @@ public class GUI extends Application {
         teams.add(team1);
         teams.add(team2);
     }
-
 }
