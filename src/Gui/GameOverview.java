@@ -1,6 +1,9 @@
 package Gui;
 
 import Objects.Game;
+import Objects.GameModes;
+import Objects.Player;
+import Objects.Team;
 import javafx.animation.AnimationTimer;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
@@ -75,6 +78,8 @@ public class GameOverview {
 
     private static void draw(FXGraphics2D g) {
         // Colors:
+        Color white = new Color(255, 255, 255);
+        Color black = new Color(0, 0, 0);
         Color gray = new Color(173, 173, 173);
         Color purple = new Color(185, 0, 230);
         Color red = new Color(230, 0, 0);
@@ -84,17 +89,58 @@ public class GameOverview {
         Font plain = new Font("", Font.PLAIN, 30);
 
         // Make image transparent
-        AlphaComposite ac1 = java.awt.AlphaComposite.getInstance(AlphaComposite.CLEAR,0.1F);
+        AlphaComposite ac1 = java.awt.AlphaComposite.getInstance(AlphaComposite.CLEAR,1F);
         g.setComposite(ac1);
         g.drawImage(newImage, imgX, imgY, null);
         // Back to front
         AlphaComposite ac2 = java.awt.AlphaComposite.getInstance(AlphaComposite.DST_OVER,1F);
         g.setComposite(ac2);
 
-        // Draw items
-        g.setColor(gray);
+        // Draw individual items
         g.setFont(plain);
-        g.drawString("Gamemode: " + game.getGameMode(), (imgX+360), (imgY+300));
+        g.setColor(white);
+        if (game.getGameMode() == GameModes.FreeForAll){
+            // GameMode
+            g.fillRect((imgX+355), (imgY+270), 320, 35);
+            g.setColor(black);
+            g.drawString("Gamemode: " + game.getGameMode(), (imgX+360), (imgY+300));
+
+            // Players
+            int plusY = 0;
+            g.setColor(purple);
+            for (Player player : game.getPlayers().values()){
+                g.drawString(player.getName(), (imgX+355), (imgY+300)+plusY);
+                plusY+=75;
+            }
+        } else if (game.getGameMode() == GameModes.TeamDeathmatch){
+            // GameMode
+            g.fillRect((imgX+705), (imgY+295), 420, 35);
+            g.setColor(black);
+            g.drawString("Gamemode: " + game.getGameMode(), (imgX+710), (imgY+325));
+
+            // Teams
+            int plusX = 0;
+            int plusY = 0;
+            Color theColor = red;
+            Color theTextColor = black;
+            for (Team team : game.getTeams().values()){
+                g.setColor(gray);
+                g.fillRect((imgX+350)+plusX, (imgY+545)+plusY-150, 420, 35);
+                g.setColor(black);
+                g.drawString("Team: " + team.getTeamName(), (imgX+355)+plusX, (imgY+575)+plusY-150);
+                for (Player player : team.getPlayers()){
+                    g.setColor(theColor);
+                    g.fillRect((imgX+400)+plusX, (imgY+475)+plusY, 310, 35);
+                    g.setColor(theTextColor);
+                    g.drawString(player.getName(), (imgX+405)+plusX, (imgY+500)+plusY);
+                    plusY+=75;
+                }
+                theColor = blue;
+                theTextColor = white;
+                plusX+=800;
+                plusY = 0;
+            }
+        }
     }
 
     private static void update(double time){

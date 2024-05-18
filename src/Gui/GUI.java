@@ -165,19 +165,31 @@ public class GUI extends Application {
         Player erik = new Player("Erik", 100, 100, new Gun(-1));
         Player storm = new Player("Storm", 95, 100, new Gun(-1));
         Player daan = new Player("Daan", 90, 100, new Gun(-1));
+        Player test1 = new Player("Test1", 90, 100, new Gun(-1));
+        Player test2 = new Player("Test2", 90, 100, new Gun(-1));
+        Player test3 = new Player("Test3", 90, 100, new Gun(-1));
         players.add(erik);
         players.add(storm);
         players.add(daan);
+        players.add(test1);
+        players.add(test2);
+        players.add(test3);
     }
 
     private void generateTeamTestData() {
         Player erik = new Player("Erik", 100, 100, new Gun(-1));
         Player storm = new Player("Storm", 95, 100, new Gun(-1));
         Player daan = new Player("Daan", 90, 100, new Gun(-1));
+        Player test4 = new Player("Maximale naamlengte!", 90, 100, new Gun(-1));
+        Player test5 = new Player("Test5", 90, 100, new Gun(-1));
+        Player test6 = new Player("Emmanuel", 90, 100, new Gun(-1));
 
         // Testdata
-        Team team1 = new Team("Team 1", erik);
+        Team team1 = new Team("Maximale teamnaamlen", erik);
         team1.addPlayer(storm);
+        team1.addPlayer(test4);
+        team1.addPlayer(test5);
+        team1.addPlayer(test6);
         Team team2 = new Team("Team 2", daan);
         teams.add(team1);
         teams.add(team2);

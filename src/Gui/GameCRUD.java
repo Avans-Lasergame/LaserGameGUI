@@ -85,7 +85,7 @@ public class GameCRUD{
 
         //#region Select Team 1 ComboBox
         Label labelSelectTeam1 = new Label("Select first Team:");
-        selectTeam1.setPrefWidth(200);
+        selectTeam1.setPrefWidth(225);
         ObservableList<Team> team1List = FXCollections.observableArrayList(teams);
         selectTeam1.setItems(team1List);
         selectTeam1.setConverter(new StringConverter<Team>() {
@@ -115,7 +115,7 @@ public class GameCRUD{
 
         //#region Select Team 2 ComboBox
         Label labelSelectTeam2 = new Label("Select second Team:");
-        selectTeam2.setPrefWidth(200);
+        selectTeam2.setPrefWidth(225);
         ObservableList<Team> team2List = FXCollections.observableArrayList(teams);
         selectTeam2.setItems(team2List);
         selectTeam2.setConverter(new StringConverter<Team>() {
