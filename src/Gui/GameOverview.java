@@ -101,15 +101,21 @@ public class GameOverview {
         g.setColor(white);
         if (game.getGameMode() == GameModes.FreeForAll){
             // GameMode
-            g.fillRect((imgX+355), (imgY+270), 320, 35);
+            g.fillRect((imgX+755), (imgY+300), 320, 35);
             g.setColor(black);
-            g.drawString("Gamemode: " + game.getGameMode(), (imgX+360), (imgY+300));
+            g.drawString("Gamemode: " + game.getGameMode(), (imgX+760), (imgY+330));
 
             // Players
+            g.setColor(gray);
+            g.fillRect((imgX+365), (imgY+400), 420, 35);
+            g.setColor(black);
+            g.drawString("Players: ", (imgX+370), (imgY+425));
             int plusY = 0;
-            g.setColor(purple);
             for (Player player : game.getPlayers().values()){
-                g.drawString(player.getName(), (imgX+355), (imgY+300)+plusY);
+                g.setColor(purple);
+                g.fillRect((imgX+365), (imgY+465)+plusY, 420, 35);
+                g.setColor(black);
+                g.drawString(player.getName(), (imgX+370), (imgY+490)+plusY);
                 plusY+=75;
             }
         } else if (game.getGameMode() == GameModes.TeamDeathmatch){
@@ -125,9 +131,9 @@ public class GameOverview {
             Color theTextColor = black;
             for (Team team : game.getTeams().values()){
                 g.setColor(gray);
-                g.fillRect((imgX+350)+plusX, (imgY+545)+plusY-150, 420, 35);
+                g.fillRect((imgX+350)+plusX, (imgY+395)+plusY, 420, 35);
                 g.setColor(black);
-                g.drawString("Team: " + team.getTeamName(), (imgX+355)+plusX, (imgY+575)+plusY-150);
+                g.drawString("Team: " + team.getTeamName(), (imgX+355)+plusX, (imgY+425)+plusY);
                 for (Player player : team.getPlayers()){
                     g.setColor(theColor);
                     g.fillRect((imgX+400)+plusX, (imgY+475)+plusY, 310, 35);

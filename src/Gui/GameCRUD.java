@@ -18,7 +18,7 @@ public class GameCRUD{
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();  //Selected Players for a game
-    private static int maximumPlayerCount = 4;
+    private static int maximumPlayerCount = 5;
     // Items:
     private static ComboBox selectPlayer = new ComboBox();
     private static ComboBox selectTeam1 = new ComboBox();
