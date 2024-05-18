@@ -36,8 +36,8 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        generatePlayerTestData();
-//        generateTeamTestData();
+        generatePlayerTestData();
+        generateTeamTestData();
 
         stage.setTitle("Laser_game GUI");
         tabpane.getSelectionModel().selectedItemProperty().addListener(
@@ -95,6 +95,14 @@ public class GUI extends Application {
         Scene scene = new Scene(tabpane, 1200, 600);
         stage.setScene(scene);
         stage.show();
+        // Exit event
+        stage.setOnHiding(event -> {
+            if (game != null){
+                game.endGame();
+            }
+            System.out.println("Exiting application...");
+            System.exit(0);
+        });
     }
 
     public static Game getGame() {
