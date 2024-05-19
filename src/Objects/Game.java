@@ -90,7 +90,6 @@ public class Game {
     }
 
     public void update() {
-        System.out.println("update");
         calculateBlinkRates();
     }
 

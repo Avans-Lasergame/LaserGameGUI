@@ -119,14 +119,14 @@ public class GUI extends Application {
 
 //            System.out.println("Data updated! from playerTab");
         } else if (previousTab == teamCRUD) {
-            System.out.println("Players updated!");
+//            System.out.println("Players updated!");
         } else if (previousTab == teamCRUD) {
             // Update Players and Teams data
             players = TeamCRUD.getPlayers();
             teams = TeamCRUD.getTeams();
             PlayerCRUD.updateData();
             GameCRUD.updateData();
-            System.out.println("Teams updated!");
+//            System.out.println("Teams updated!");
 
 //            System.out.println("Data updated! from teamTab");
         } else if (previousTab == gameCRUD) {
@@ -144,7 +144,7 @@ public class GUI extends Application {
             GameCRUD.updateData();
             PlayerCRUD.updateData();
             TeamCRUD.updateData();
-            System.out.println("Data updated! from serverTab");
+//            System.out.println("Data updated! from serverTab");
         }
     }
 

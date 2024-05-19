@@ -14,13 +14,14 @@ public class Gun {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Gun<" + ID + ">";
     }
-    
+
     public void isHit() {
         System.out.println("hit");
-        playerCallback.isHit();
+        if (playerCallback != null)
+            playerCallback.isHit();
     }
 
 
@@ -42,5 +43,9 @@ public class Gun {
 
     public int getID() {
         return ID;
+    }
+
+    public void stop() {
+        gunCallback.stopThread();
     }
 }

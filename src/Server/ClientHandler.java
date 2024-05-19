@@ -57,7 +57,7 @@ class ClientHandler implements Runnable, GunCallback {
                                 System.out.println("empty");
                                 GUI.getGuns().add(gun);
                             }
-
+                            ServerGUI.updateGunsContainer();
                             gun.setCallback(this);
                         } else if (inputLine.split(":", 2)[0].equalsIgnoreCase("hitby")) {
                             if (gun != null) {
@@ -81,15 +81,34 @@ class ClientHandler implements Runnable, GunCallback {
     @Override
     public void changeLED(int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            out.println("led," + "," + r + "," + g + "," + b + ".");
+            out.println("led," + r + "," + g + "," + b + ".");
         }
     }
 
     @Override
     public void blink(double i, int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            System.out.println("ledblink"+gun.getID());
             out.println("ledblink," + i + "," + r + "," + g + "," + b + ".");
+        }
+    }
+
+    @Override
+    public void rawCommand(String msg) {
+        if(clientSocket.isConnected()){
+            out.println(msg);
+        }
+    }
+
+    @Override
+    public void stopThread() {
+        System.out.println("stop");
+        ServerGUI.log("Stopped client for gun"+this.gun.getID());
+        try {
+            out.close();
+            in.close();
+            clientSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
