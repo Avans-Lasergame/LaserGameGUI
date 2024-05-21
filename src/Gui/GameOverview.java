@@ -105,24 +105,23 @@ public class GameOverview {
 
             // Players
             g.setColor(gray);
-            g.fillRect((imgX+365), (imgY+400), 310, 35);
+            g.fillRect((imgX+755), (imgY+400), 310, 35);
             g.setColor(black);
-            g.drawString("Players: ", (imgX+370), (imgY+425));
+            g.drawString("Players: ", (imgX+760), (imgY+425));
             int plusY = 0;
             // Draw Players
             for (Player player : game.getPlayers().values()){
                 g.setColor(purple);
-                g.fillRect((imgX+365), (imgY+465)+plusY, 310, 35);
+                g.fillRect((imgX+755), (imgY+465)+plusY, 310, 35);
                 g.setColor(black);
-                g.drawString(player.getName(), (imgX+370), (imgY+490)+plusY);
+                g.drawString(player.getName(), (imgX+760), (imgY+490)+plusY);
                 // Display health
                 int health = player.getHealth();
                 int maxHealth = player.getMaxHealth();
                 double percentage = (double) 100 /maxHealth*health;
-                g.fillRect((imgX+365), (imgY+500)+plusY, 310, 35);
+                g.fillRect((imgX+755), (imgY+500)+plusY, 310, 35);
                 g.setColor(green);
-                g.fillRect((imgX+370), (imgY+505)+plusY, (int) (3*percentage), 25);
-
+                g.fillRect((imgX+760), (imgY+505)+plusY, (int) (3*percentage), 25);
                 plusY+=75;
             }
         } else if (game.getGameMode() == GameModes.TeamDeathmatch){
