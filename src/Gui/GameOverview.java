@@ -84,6 +84,7 @@ public class GameOverview {
         Color purple = new Color(185, 0, 230);
         Color red = new Color(230, 0, 0);
         Color blue = new Color(0, 0, 230);
+        Color green = new Color(0, 230, 0);
 
         // Fonts:
         Font plain = new Font("", Font.PLAIN, 30);
@@ -107,15 +108,23 @@ public class GameOverview {
 
             // Players
             g.setColor(gray);
-            g.fillRect((imgX+365), (imgY+400), 420, 35);
+            g.fillRect((imgX+365), (imgY+400), 310, 35);
             g.setColor(black);
             g.drawString("Players: ", (imgX+370), (imgY+425));
             int plusY = 0;
             for (Player player : game.getPlayers().values()){
                 g.setColor(purple);
-                g.fillRect((imgX+365), (imgY+465)+plusY, 420, 35);
+                g.fillRect((imgX+365), (imgY+465)+plusY, 310, 35);
                 g.setColor(black);
                 g.drawString(player.getName(), (imgX+370), (imgY+490)+plusY);
+                // Display health
+                int health = player.getHealth();
+                int maxHealth = player.getMaxHealth();
+                double percentage = (double) 100 /maxHealth*health;
+                g.fillRect((imgX+365), (imgY+500)+plusY, 310, 35);
+                g.setColor(green);
+                g.fillRect((imgX+370), (imgY+505)+plusY, (int) (3*percentage), 25);
+
                 plusY+=75;
             }
         } else if (game.getGameMode() == GameModes.TeamDeathmatch){
@@ -139,6 +148,14 @@ public class GameOverview {
                     g.fillRect((imgX+400)+plusX, (imgY+475)+plusY, 310, 35);
                     g.setColor(theTextColor);
                     g.drawString(player.getName(), (imgX+405)+plusX, (imgY+500)+plusY);
+                    // Display health
+                    int health = player.getHealth();
+                    int maxHealth = player.getMaxHealth();
+                    double percentage = (double) 100 /maxHealth*health;
+                    g.setColor(black);
+                    g.fillRect((imgX+400)+plusX, (imgY+510)+plusY, 310, 35);
+                    g.setColor(green);
+                    g.fillRect((imgX+405)+plusX, (imgY+515)+plusY, (int) (3*percentage), 25);
                     plusY+=75;
                 }
                 theColor = blue;
