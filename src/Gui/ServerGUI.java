@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 
 public class ServerGUI {
     private static boolean isServerRunning = false;
-    private static ServerThread serverThread;
+    private static ServerThread serverThread; // Server Thread
     private static TextArea logArea, rawData;
     private static VBox gunsContainer;
 

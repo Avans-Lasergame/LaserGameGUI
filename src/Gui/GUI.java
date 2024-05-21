@@ -2,28 +2,21 @@ package Gui;
 
 import Objects.*;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import static javafx.scene.control.TabPane.TabClosingPolicy.UNAVAILABLE;
 
 public class GUI extends Application {
-    private static Game game = new Game();
-    private static ArrayList<Player> players = new ArrayList<>();
-    private static CopyOnWriteArrayList<Gun> guns = new CopyOnWriteArrayList<>();
-    private static ArrayList<Team> teams = new ArrayList<>();
+    private static Game game = new Game(); // The Game
+    private static ArrayList<Player> players = new ArrayList<>(); // The Players
+    private static ArrayList<Team> teams = new ArrayList<>(); // The Teams
+    private static CopyOnWriteArrayList<Gun> guns = new CopyOnWriteArrayList<>(); // Connected LaserGuns
     private static final TabPane tabpane = new TabPane();
     private static Tab playerCRUD;
     private static Tab teamCRUD;
@@ -36,6 +29,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Test Data:
 //        generatePlayerTestData();
 //        generateTeamTestData();
 
@@ -118,25 +112,17 @@ public class GUI extends Application {
     }
 
     public void handleTab(Tab previousTab, Tab current) {
-
         if (previousTab == playerCRUD) {
             // Update Players data
             players = PlayerCRUD.getPlayers();
             TeamCRUD.updateData();
             GameCRUD.updateData();
-
-//            System.out.println("Data updated! from playerTab");
-        } else if (previousTab == teamCRUD) {
-//            System.out.println("Players updated!");
         } else if (previousTab == teamCRUD) {
             // Update Players and Teams data
             players = TeamCRUD.getPlayers();
             teams = TeamCRUD.getTeams();
             PlayerCRUD.updateData();
             GameCRUD.updateData();
-//            System.out.println("Teams updated!");
-
-//            System.out.println("Data updated! from teamTab");
         } else if (previousTab == gameCRUD) {
             // Update Game data
             game = GameCRUD.getGame();
@@ -152,7 +138,6 @@ public class GUI extends Application {
             GameCRUD.updateData();
             PlayerCRUD.updateData();
             TeamCRUD.updateData();
-//            System.out.println("Data updated! from serverTab");
         }
     }
 

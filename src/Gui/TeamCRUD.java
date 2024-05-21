@@ -1,7 +1,5 @@
 package Gui;
 
-import Gui.GUI;
-import Objects.GameModes;
 import Objects.Player;
 import Objects.Team;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-
 import java.util.ArrayList;
 
 public class TeamCRUD{

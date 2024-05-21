@@ -9,16 +9,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-
 import java.util.ArrayList;
 
 public class PlayerCRUD {
-    private static ArrayList<Player> players = GUI.getPlayers(); //All Players
-    private static final ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
+    private static ArrayList<Player> players = GUI.getPlayers(); // All Players
+    private static final ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); // Selectable Players
     // Items:
-    private static final ComboBox<Player> selectPlayer = new ComboBox<>();
-    private static final ComboBox<Gun> gunComboBox = new ComboBox<>();
-    private static final ArrayList<Integer> usedGuns = new ArrayList<Integer>();
+    private static final ComboBox<Player> selectPlayer = new ComboBox<>(); // Selected Players
+    private static final ComboBox<Gun> gunComboBox = new ComboBox<>(); // Connected LaserGuns
+    private static final ArrayList<Integer> usedGuns = new ArrayList<Integer>(); // Already assigned LaserGuns
 
     public static VBox getComponent() {
         // General settings
@@ -31,7 +30,7 @@ public class PlayerCRUD {
         // Fill starting list of Teams
         selectablePlayers.addAll(players);
 
-        //#region Create Player
+        //#region Create Player (with LaserGun)
         Label labelCreatePlayer = new Label("Create new Player:");
 
         VBox item1 = new VBox(10);
@@ -54,7 +53,6 @@ public class PlayerCRUD {
         gunComboBox.setPrefWidth(100);
 
         item4.getChildren().addAll(gunComboBox);
-
         //#endregion
 
 

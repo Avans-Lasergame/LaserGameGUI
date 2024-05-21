@@ -7,7 +7,6 @@ public class Team{
     private UUID id;
     private String name;
     private ArrayList<Player> players = new ArrayList<>();
-
     public Team(String teamName, Player player){
         this.id = UUID.randomUUID();
         this.name = teamName;

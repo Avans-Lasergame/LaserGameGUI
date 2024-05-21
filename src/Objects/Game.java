@@ -1,8 +1,6 @@
 package Objects;
 
-import Gui.GUI;
 import javafx.collections.ObservableList;
-
 import java.util.HashMap;
 import java.util.UUID;
 
