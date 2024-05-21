@@ -120,6 +120,7 @@ public class Game {
                 // Add game logic here, for example:
                 System.out.println("Game is running...");
                 try {
+                    update();
                     Thread.sleep(1000); // Sleep for a while to simulate game processing
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
