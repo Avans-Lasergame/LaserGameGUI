@@ -1,9 +1,9 @@
 package Objects;
 
-import Objects.Callbacks.GunCallback;
-import Objects.Callbacks.PlayerCallback;
+import Objects.Interfaces.GunCallback;
+import Objects.Interfaces.PlayerCallback;
 
-public class Gun {
+public class Gun implements GunCallback{
     // TODO: 04/04/2024 maak deze klasse
     int ID;
     private GunCallback gunCallback;
@@ -32,11 +32,17 @@ public class Gun {
     public void setCallback(PlayerCallback playerCallback) {
         this.playerCallback = playerCallback;
     }
-
+    @Override
     public void blink(double i, int r, int g, int b) {
         this.gunCallback.blink(i, r, g, b);
     }
 
+    @Override
+    public void rawCommand(String msg) {
+        this.gunCallback.rawCommand(msg);
+    }
+
+    @Override
     public void changeLED(int r, int g, int b) {
         this.gunCallback.changeLED(r, g, b);
     }
@@ -44,8 +50,8 @@ public class Gun {
     public int getID() {
         return ID;
     }
-
+    @Override
     public void stop() {
-        gunCallback.stopThread();
+        gunCallback.stop();
     }
 }

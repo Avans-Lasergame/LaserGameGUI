@@ -1,7 +1,7 @@
 package Objects;
 
 import Gui.GameCRUD;
-import Objects.Callbacks.PlayerCallback;
+import Objects.Interfaces.PlayerCallback;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -64,6 +64,7 @@ public class Player implements Serializable, PlayerCallback {
     public void reset(){
         this.health = maxHealth;
         this.isDead = false;
+        this.gun.changeLED(0,0,0);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class Player implements Serializable, PlayerCallback {
             health --;
         else
             isDead = true;
+        System.out.println("update");
         GameCRUD.getGame().update();
     }
 }

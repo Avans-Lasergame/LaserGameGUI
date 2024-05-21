@@ -59,7 +59,7 @@ public class ServerGUI {
             String command = rawData.getText();
             Platform.runLater(() -> {
                 for (Gun gun : GUI.getGuns()) {
-//                    gun.receiveCommand(command);
+                    gun.rawCommand(command);
                 }
                 rawData.clear();
             });
@@ -102,7 +102,7 @@ public class ServerGUI {
                 Button sendButton = new Button("Send");
                 sendButton.setOnAction(e -> {
                     String command = gunCommandField.getText();
-//                    gun.receiveCommand(command);
+                    gun.rawCommand(command);
                     gunCommandField.clear();
                 });
                 gunBox.getChildren().addAll(gunLabel, gunCommandField, sendButton);

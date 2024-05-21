@@ -2,7 +2,7 @@ package Server;
 
 import Gui.GUI;
 import Gui.ServerGUI;
-import Objects.Callbacks.GunCallback;
+import Objects.Interfaces.GunCallback;
 import Objects.Gun;
 
 import java.io.BufferedReader;
@@ -81,14 +81,14 @@ class ClientHandler implements Runnable, GunCallback {
     @Override
     public void changeLED(int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            out.println("led," + r + "," + g + "," + b + ".");
+            out.println("led," + r + "," + g + "," + b);
         }
     }
 
     @Override
     public void blink(double i, int r, int g, int b) {
         if (clientSocket.isConnected()) {
-            out.println("ledblink," + i + "," + r + "," + g + "," + b + ".");
+            out.println("ledblink," + i + "," + r + "," + g + "," + b);
         }
     }
 
@@ -100,7 +100,7 @@ class ClientHandler implements Runnable, GunCallback {
     }
 
     @Override
-    public void stopThread() {
+    public void stop() {
         System.out.println("stop");
         ServerGUI.log("Stopped client for gun"+this.gun.getID());
         try {

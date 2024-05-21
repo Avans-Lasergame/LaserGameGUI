@@ -1,5 +1,6 @@
 package Objects;
 
+import Gui.GUI;
 import javafx.collections.ObservableList;
 
 import java.util.HashMap;
@@ -67,21 +68,25 @@ public class Game {
 
     public void startGame() {
         this.gameRunning = true;
+        for (UUID uuid : players.keySet()) {
+            players.get(uuid).reset();
+        }
+        this.update();
         gameThread = new Thread(new GameRunnable());
         gameThread.start();
     }
 
     public void endGame() {
         this.gameRunning = false;
+        for (UUID uuid : players.keySet()) {
+            players.get(uuid).reset();
+        }
         try {
             if (gameThread != null) {
                 gameThread.join();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        for (UUID uuid : players.keySet()) {
-            players.get(uuid).reset();
         }
     }
 
@@ -95,9 +100,15 @@ public class Game {
 
     private void calculateBlinkRates() {
         for (UUID uuid : players.keySet()) {
-            if (players.get(uuid).getHealth() > 0) {
-                double i = (double) players.get(uuid).getHealth() / players.get(uuid).getMaxHealth();
-                players.get(uuid).getGun().blink(i, 0, 255, 0);
+            if (players.get(uuid).isDead()) {
+                players.get(uuid).getGun().changeLED(255, 0, 0);
+            } else if(players.get(uuid).getHealth() == players.get(uuid).getMaxHealth()){
+                players.get(uuid).getGun().changeLED(0, 255, 0);
+            }else {
+                if (players.get(uuid).getHealth() > 0) {
+                    double i = (double) players.get(uuid).getHealth() / players.get(uuid).getMaxHealth();
+                    players.get(uuid).getGun().blink(i, 0, 255, 0);
+                }
             }
         }
     }
