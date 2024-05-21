@@ -33,13 +33,13 @@ public class ServerGUI {
             }
         });
 
-        //delete all guns form the GUI
+        // delete all guns form the GUI
         Button deleteGuns = new Button("Delete all guns");
         deleteGuns.setOnAction(e -> {
             log("Deleted all guns");
             Platform.runLater(() -> {
                 for (Gun gun : GUI.getGuns()) {
-                    gun.stop();//stop the client before deleting the gun
+                    gun.stop(); // stop the client before deleting the gun
                 }
                 GUI.getGuns().clear();
                 PlayerCRUD.updateData(); // update all gun related stuff
@@ -47,7 +47,7 @@ public class ServerGUI {
             });
         });
 
-        //stop all running clients
+        // stop all running clients
         Button stopClients = new Button("Stop client handlers");
         stopClients.setOnAction(e -> {
             Platform.runLater(() -> {
@@ -90,12 +90,29 @@ public class ServerGUI {
         // the container for all the buttons
         HBox topContainer = new HBox(10);
         topContainer.setPadding(new Insets(10));
-        topContainer.getChildren().addAll(startServer, deleteGuns, stopClients, sendCommand);
+        topContainer.getChildren().addAll(startServer, deleteGuns, stopClients);
 
-        mainPane.setTop(topContainer);
-        mainPane.setLeft(logArea);
-        mainPane.setCenter(scrollPane);
-        mainPane.setRight(rawData);
+        // Create labeled containers for the GUI sections
+        VBox topSection = new VBox(10);
+        topSection.setPadding(new Insets(10));
+        topSection.getChildren().addAll(new Label("Server Controls"), topContainer);
+
+        VBox logSection = new VBox(10);
+        logSection.setPadding(new Insets(10));
+        logSection.getChildren().addAll(new Label("Server Log"), logArea);
+
+        VBox commandSection = new VBox(10);
+        commandSection.setPadding(new Insets(10));
+        commandSection.getChildren().addAll(new Label("Raw Command"), rawData, sendCommand);
+
+        VBox gunsSection = new VBox(10);
+        gunsSection.setPadding(new Insets(10));
+        gunsSection.getChildren().addAll(new Label("Connected Guns"), scrollPane);
+
+        mainPane.setTop(topSection);
+        mainPane.setLeft(logSection);
+        mainPane.setCenter(gunsSection);
+        mainPane.setRight(commandSection);
 
         return mainPane;
     }
@@ -105,7 +122,7 @@ public class ServerGUI {
             gunsContainer.getChildren().clear();
             for (Gun gun : GUI.getGuns()) {
                 HBox gunBox = new HBox(10);
-                Label gunLabel = new Label("Gun"+gun.getID());
+                Label gunLabel = new Label("Gun" + gun.getID());
                 TextField gunCommandField = new TextField();
                 Button sendButton = new Button("Send");
                 sendButton.setOnAction(e -> {

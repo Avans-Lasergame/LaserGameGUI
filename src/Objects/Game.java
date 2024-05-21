@@ -1,6 +1,7 @@
 package Objects;
 
 import javafx.collections.ObservableList;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,6 +31,8 @@ public class Game {
     public Game(GameModes gameMode, Team team1, Team team2) {
         this.teams = new HashMap<>();
         this.players = new HashMap<>();
+        this.players.putAll(team1.getPlayers());
+        this.players.putAll(team2.getPlayers());
         this.teams.put(team1.getId(), team1);
         this.teams.put(team2.getId(), team2);
         this.gameMode = gameMode;
@@ -44,16 +47,8 @@ public class Game {
         return teams;
     }
 
-    public void addPlayer(Player player) {
-        this.players.put(player.getId(), player);
-    }
-
     public void deletePlayer(UUID id) {
         this.players.remove(id);
-    }
-
-    public void setGameMode(GameModes gameMode) {
-        this.gameMode = gameMode;
     }
 
     public GameModes getGameMode() {
@@ -61,15 +56,9 @@ public class Game {
 
     }
 
-    public void addSpeler(Player player) {
-        this.players.put(player.getId(), player);
-    }
-
     public void startGame() {
         this.gameRunning = true;
-        for (UUID uuid : players.keySet()) {
-            players.get(uuid).reset();
-        }
+        reset();
         this.update();
         gameThread = new Thread(new GameRunnable());
         gameThread.start();
@@ -77,9 +66,7 @@ public class Game {
 
     public void endGame() {
         this.gameRunning = false;
-        for (UUID uuid : players.keySet()) {
-            players.get(uuid).reset();
-        }
+        reset();
         try {
             if (gameThread != null) {
                 gameThread.join();
@@ -89,11 +76,26 @@ public class Game {
         }
     }
 
+    private void reset() {
+        if (gameMode == GameModes.FreeForAll) {
+            for (Player player : this.players.values()) {
+                player.reset();
+            }
+        } else if (gameMode == GameModes.TeamDeathmatch) {
+            for (Team team : this.teams.values()) {
+                for (Player player : team.getPlayers().values()) {
+                    player.reset();
+                }
+            }
+        }
+    }
+
     public boolean isGameRunning() {
         return this.gameRunning;
     }
 
     public void update() {
+        System.out.println("game update");
         calculateBlinkRates();
     }
 
@@ -101,9 +103,9 @@ public class Game {
         for (UUID uuid : players.keySet()) {
             if (players.get(uuid).isDead()) {
                 players.get(uuid).getGun().changeLED(255, 0, 0);
-            } else if(players.get(uuid).getHealth() == players.get(uuid).getMaxHealth()){
+            } else if (players.get(uuid).getHealth() == players.get(uuid).getMaxHealth()) {
                 players.get(uuid).getGun().changeLED(0, 255, 0);
-            }else {
+            } else {
                 if (players.get(uuid).getHealth() > 0) {
                     double i = (double) players.get(uuid).getHealth() / players.get(uuid).getMaxHealth();
                     players.get(uuid).getGun().blink(i, 0, 255, 0);
@@ -115,12 +117,11 @@ public class Game {
     private class GameRunnable implements Runnable {
         @Override
         public void run() {
+            System.out.println("Game is running...");
             while (isGameRunning()) {
-                // Add game logic here, for example:
-                System.out.println("Game is running...");
+                update();
                 try {
-                    update();
-                    Thread.sleep(1000); // Sleep for a while to simulate game processing
+                    Thread.sleep(100); // Sleep for a while to simulate game processing
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     System.out.println("Game thread interrupted");
