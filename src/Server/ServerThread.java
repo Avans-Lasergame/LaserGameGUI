@@ -1,4 +1,4 @@
-package Objects.Server;
+package Server;
 
 import Gui.ServerGUI;
 import javafx.application.Platform;

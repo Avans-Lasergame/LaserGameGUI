@@ -1,6 +1,7 @@
 package Objects;
 
-import Objects.Callbacks.PlayerCallback;
+import Gui.GameCRUD;
+import Objects.Interfaces.PlayerCallback;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -13,7 +14,7 @@ public class Player implements Serializable, PlayerCallback {
     private String name;
     private int health;
     private int maxHealth;
-    private boolean isDead;
+    private boolean isDead = false;
 
     public Player(String name, int health,int maxHealth, Gun gun) {
         this.id = UUID.randomUUID();
@@ -48,14 +49,31 @@ public class Player implements Serializable, PlayerCallback {
         return id;
     }
 
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 
     public void delete(Game game) {
         game.deletePlayer(this.getId());
     }
 
+    public void reset(){
+        this.health = maxHealth;
+        this.isDead = false;
+        this.gun.changeLED(0,0,0);
+    }
 
     @Override
     public void isHit() {
-        // TODO: 13/05/2024 get hit here
+        if (health > 0)
+            health --;
+        else
+            isDead = true;
+        System.out.println("update");
+        GameCRUD.getGame().update();
     }
 }
