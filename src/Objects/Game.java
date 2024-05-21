@@ -62,6 +62,7 @@ public class Game {
 
     public GameModes getGameMode(){
         return this.gameMode;
+
     }
 
     public void setPlayerObserver(PlayerObserver playerObserver) {
