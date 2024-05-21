@@ -14,10 +14,11 @@ import java.util.ArrayList;
 
 public class PlayerCRUD {
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
-    private static ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
+    private static final ObservableList<Player> selectablePlayers = FXCollections.observableArrayList(); //Selectable Players
     // Items:
-    private static ComboBox selectPlayer = new ComboBox();
-    private static ComboBox<Gun> gunComboBox = new ComboBox();
+    private static final ComboBox<Player> selectPlayer = new ComboBox<>();
+    private static final ComboBox<Gun> gunComboBox = new ComboBox<>();
+    private static final ArrayList<Integer> usedGuns = new ArrayList<Integer>();
 
     public static VBox getComponent() {
         // General settings
@@ -28,9 +29,7 @@ public class PlayerCRUD {
         VBox thirdRow = new VBox(20);
         HBox columns = new HBox(100);
         // Fill starting list of Teams
-        for (Player player : players) {
-            selectablePlayers.add(player);
-        }
+        selectablePlayers.addAll(players);
 
         //#region Create Player
         Label labelCreatePlayer = new Label("Create new Player:");
@@ -51,7 +50,7 @@ public class PlayerCRUD {
         item3.getChildren().addAll(maxHealthInputLabel, maxHealthInput);
 
         VBox item4 = new VBox(10);
-        selectPlayer.getItems().addAll(GUI.getGuns());
+        selectPlayer.getItems().addAll(GUI.getPlayers());
         gunComboBox.setPrefWidth(100);
 
         item4.getChildren().addAll(gunComboBox);
@@ -72,7 +71,7 @@ public class PlayerCRUD {
 
             @Override
             public Player fromString(String string) {
-                return (Player) selectPlayer.getItems().stream().filter(player ->
+                return selectPlayer.getItems().stream().filter(player ->
                         player.equals(string)).findFirst().orElse(null);
             }
         });
@@ -84,11 +83,13 @@ public class PlayerCRUD {
         Button buttonCreatePlayer = new Button("Create Player");
         buttonCreatePlayer.setOnAction(e -> {
             if (!nameInput.getText().equalsIgnoreCase("") && !healthInput.getText().equalsIgnoreCase("") &&
-                !maxHealthInput.getText().equalsIgnoreCase("") && nameInput.getText().length() <= 20 &&
-                    healthInput.getText().length() <= 3 && maxHealthInput.getText().length() <= 3){
-                if (Integer.valueOf(healthInput.getText()) <= Integer.valueOf(maxHealthInput.getText())){
+                    !maxHealthInput.getText().equalsIgnoreCase("") && nameInput.getText().length() <= 20 &&
+                    healthInput.getText().length() <= 3 && maxHealthInput.getText().length() <= 3) {
+                if (Integer.parseInt(healthInput.getText()) <= Integer.parseInt(maxHealthInput.getText())) {
                     // TODO: Creating of Guns and Vests + selections for this!
-                    Player newPlayer = new Player(nameInput.getText(), Integer.valueOf(healthInput.getText()), Integer.valueOf(maxHealthInput.getText()), gunComboBox.getValue());
+                    Player newPlayer = new Player(nameInput.getText(), Integer.parseInt(healthInput.getText()), Integer.parseInt(maxHealthInput.getText()), gunComboBox.getValue());
+                    usedGuns.add(gunComboBox.getValue().getID());
+                    gunComboBox.getItems().remove(gunComboBox.getValue());
                     selectablePlayers.add(newPlayer);
                     selectPlayer.getItems().add(newPlayer);
                     players.add(newPlayer);
@@ -124,7 +125,7 @@ public class PlayerCRUD {
         //#region Remove Player Button
         Button buttonRemovePlayer = new Button("Delete selected Player");
         buttonRemovePlayer.setOnAction(e -> {
-            Player selectedPlayer = (Player) selectPlayer.getSelectionModel().getSelectedItem();
+            Player selectedPlayer = selectPlayer.getSelectionModel().getSelectedItem();
             if (selectedPlayer == null) {
                 // Show alert
                 Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
@@ -169,7 +170,15 @@ public class PlayerCRUD {
         ObservableList<Player> playerList = FXCollections.observableArrayList(players);
         selectPlayer.setItems(playerList);
 
-        gunComboBox.getItems().setAll(GUI.getGuns());
+        System.out.println(usedGuns);
+        if (!GUI.getGuns().isEmpty())
+            for (Gun gun : GUI.getGuns()) {
+                if (!usedGuns.contains(gun.getID()) && !gunComboBox.getItems().contains(gun)) {
+                    gunComboBox.getItems().add(gun);
+                }
+            }
+        else
+            usedGuns.clear();
         System.out.println("set guns");
     }
 

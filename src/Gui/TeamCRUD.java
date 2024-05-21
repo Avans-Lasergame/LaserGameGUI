@@ -120,19 +120,27 @@ public class TeamCRUD{
         Button buttonCreateTeam = new Button("Create Team");
         buttonCreateTeam.setOnAction(e -> {
             if (!createTeam.getText().equalsIgnoreCase("")){
-                Player selectedPlayer = (Player) selectTeamCaptain.getSelectionModel().getSelectedItem();
-                Team newTeam = new Team(createTeam.getText(), selectedPlayer);
-                selectTeam.getItems().add(newTeam);
-                teams.add(newTeam);
+                if (createTeam.getText().length() <= 20){
+                    Player selectedPlayer = (Player) selectTeamCaptain.getSelectionModel().getSelectedItem();
+                    Team newTeam = new Team(createTeam.getText(), selectedPlayer);
+                    selectTeam.getItems().add(newTeam);
+                    teams.add(newTeam);
 
-                // Show alert
-                Alert addedTeam = new Alert(Alert.AlertType.INFORMATION);
-                addedTeam.setHeaderText("Success!");
-                addedTeam.setContentText(newTeam.getTeamName() + " was created! ");
-                addedTeam.showAndWait();
+                    // Show alert
+                    Alert addedTeam = new Alert(Alert.AlertType.INFORMATION);
+                    addedTeam.setHeaderText("Success!");
+                    addedTeam.setContentText(newTeam.getTeamName() + " was created! ");
+                    addedTeam.showAndWait();
 
-                // Empty textfield
-                createTeam.setText("");
+                    // Empty textfield
+                    createTeam.setText("");
+                } else {
+                    // Show alert
+                    Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
+                    errorTeam.setHeaderText("Error!");
+                    errorTeam.setContentText("Team name cannot be longer than 20 characters!");
+                    errorTeam.showAndWait();
+                }
             } else {
                 // Show alert
                 Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);

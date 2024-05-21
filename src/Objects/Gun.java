@@ -1,9 +1,9 @@
 package Objects;
 
-import Objects.Callbacks.GunCallback;
-import Objects.Callbacks.PlayerCallback;
+import Objects.Interfaces.GunCallback;
+import Objects.Interfaces.PlayerCallback;
 
-public class Gun {
+public class Gun implements GunCallback{
     // TODO: 04/04/2024 maak deze klasse
     int ID;
     private GunCallback gunCallback;
@@ -13,13 +13,17 @@ public class Gun {
         this.ID = ID;
     }
 
-    public void isHit() {
-        playerCallback.isHit();
+    @Override
+    public String toString() {
+        return "Gun<" + ID + ">";
     }
 
-    public void changeLED(int r, int g, int b) {
-        this.gunCallback.changeLED(r, g, b);
+    public void isHit() {
+        System.out.println("hit");
+        if (playerCallback != null)
+            playerCallback.isHit();
     }
+
 
     public void setCallback(GunCallback gunCallback) {
         this.gunCallback = gunCallback;
@@ -27,5 +31,27 @@ public class Gun {
 
     public void setCallback(PlayerCallback playerCallback) {
         this.playerCallback = playerCallback;
+    }
+    @Override
+    public void blink(double i, int r, int g, int b) {
+        this.gunCallback.blink(i, r, g, b);
+    }
+
+    @Override
+    public void rawCommand(String msg) {
+        this.gunCallback.rawCommand(msg);
+    }
+
+    @Override
+    public void changeLED(int r, int g, int b) {
+        this.gunCallback.changeLED(r, g, b);
+    }
+
+    public int getID() {
+        return ID;
+    }
+    @Override
+    public void stop() {
+        gunCallback.stop();
     }
 }
