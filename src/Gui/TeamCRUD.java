@@ -1,7 +1,5 @@
 package Gui;
 
-import Gui.GUI;
-import Objects.GameModes;
 import Objects.Player;
 import Objects.Team;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +13,7 @@ import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 
-public class TeamCRUD{
+public class TeamCRUD {
     private static ArrayList<Player> players = GUI.getPlayers(); //All Players
     private static ArrayList<Team> teams = GUI.getTeams(); //All Teams
     private static ObservableList<Team> selectableTeams = FXCollections.observableArrayList(); //Selectable Teams
@@ -25,6 +23,7 @@ public class TeamCRUD{
     private static ComboBox selectTeamCaptain = new ComboBox();
     private static ComboBox selectTeam = new ComboBox();
     private static ComboBox selectPlayer = new ComboBox();
+
     public static VBox getComponent() {
         // General settings
         VBox teamCrudBox = new VBox(20);
@@ -34,7 +33,7 @@ public class TeamCRUD{
         VBox thirdRow = new VBox(20);
         HBox columns = new HBox(100);
         // Fill starting list of Teams
-        for (Team team : teams){
+        for (Team team : teams) {
             selectableTeams.add(team);
         }
 
@@ -45,9 +44,10 @@ public class TeamCRUD{
         selectTeamCaptain.setItems(allPlayers);
         selectTeamCaptain.setConverter(new StringConverter<Player>() {
             @Override
-            public String toString(Player player){
+            public String toString(Player player) {
                 return player.getName();
             }
+
             @Override
             public Player fromString(String string) {
                 return (Player) selectTeamCaptain.getItems().stream().filter(player ->
@@ -74,9 +74,10 @@ public class TeamCRUD{
         selectTeam.setItems(teamsList);
         selectTeam.setConverter(new StringConverter<Team>() {
             @Override
-            public String toString(Team team){
+            public String toString(Team team) {
                 return team.getTeamName();
             }
+
             @Override
             public Team fromString(String string) {
                 return (Team) selectTeam.getItems().stream().filter(team ->
@@ -87,12 +88,11 @@ public class TeamCRUD{
             selectedPlayers.clear();
             try {
                 Team theTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
-                if (selectTeam.getSelectionModel().getSelectedItem().equals(theTeam)){
-                    for (Player player : theTeam.getPlayers()){
-                        selectedPlayers.add(player);
-                    }
+                if (selectTeam.getSelectionModel().getSelectedItem().equals(theTeam)) {
+                    selectedPlayers.addAll(theTeam.getPlayers().values());
                 }
-            } catch (NullPointerException npe){} //Catch is alleen voor als het eerste team wordt verwijderd
+            } catch (NullPointerException ignored) {
+            } //Catch is alleen voor als het eerste team wordt verwijderd
         });
         //#endregion
 
@@ -103,9 +103,10 @@ public class TeamCRUD{
         selectPlayer.setItems(playerList);
         selectPlayer.setConverter(new StringConverter<Player>() {
             @Override
-            public String toString(Player player){
+            public String toString(Player player) {
                 return player.getName();
             }
+
             @Override
             public Player fromString(String string) {
                 return (Player) selectPlayer.getItems().stream().filter(player ->
@@ -119,8 +120,8 @@ public class TeamCRUD{
         //#region Create Team Button
         Button buttonCreateTeam = new Button("Create Team");
         buttonCreateTeam.setOnAction(e -> {
-            if (!createTeam.getText().equalsIgnoreCase("")){
-                if (createTeam.getText().length() <= 20){
+            if (!createTeam.getText().equalsIgnoreCase("")) {
+                if (createTeam.getText().length() <= 20) {
                     Player selectedPlayer = (Player) selectTeamCaptain.getSelectionModel().getSelectedItem();
                     Team newTeam = new Team(createTeam.getText(), selectedPlayer);
                     selectTeam.getItems().add(newTeam);
@@ -155,7 +156,7 @@ public class TeamCRUD{
         Button buttonAddPlayer = new Button("Add Player to Team");
         buttonAddPlayer.setOnAction(e -> {
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
-            if (selectedTeam == null){
+            if (selectedTeam == null) {
                 // Show alert
                 Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
                 errorPlayer.setHeaderText("Error!");
@@ -163,16 +164,16 @@ public class TeamCRUD{
                 errorPlayer.showAndWait();
                 return;
             }
-            if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
-                if (selectedPlayers.size() < maximumPlayersInTeam){
+            if (!selectedTeam.getTeamName().equalsIgnoreCase("")) {
+                if (selectedPlayers.size() < maximumPlayersInTeam) {
                     Player selectedPlayer = (Player) selectPlayer.getSelectionModel().getSelectedItem();
                     boolean playerAlreadyAdded = false;
-                    for (Player player : selectedTeam.getPlayers()){
-                        if (player.getName().equalsIgnoreCase(selectedPlayer.getName())){
+                    for (Player player : selectedTeam.getPlayers().values()) {
+                        if (player.getName().equalsIgnoreCase(selectedPlayer.getName())) {
                             playerAlreadyAdded = true;
                         }
                     }
-                    if (!playerAlreadyAdded){
+                    if (!playerAlreadyAdded) {
                         selectedPlayers.add(selectedPlayer);
                         selectedTeam.addPlayer(selectedPlayer);
 
@@ -188,7 +189,7 @@ public class TeamCRUD{
                         errorPlayer.setContentText(selectedPlayer.getName() + " was already added to: " + selectedTeam.getTeamName());
                         errorPlayer.showAndWait();
                     }
-                } else{
+                } else {
                     // Show alert
                     Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
                     errorPlayer.setHeaderText("Error!");
@@ -210,7 +211,7 @@ public class TeamCRUD{
         Button buttonRemovePlayer = new Button("Remove last Player from List");
         buttonRemovePlayer.setOnAction(e -> {
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
-            if (selectedTeam == null){
+            if (selectedTeam == null) {
                 // Show alert
                 Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
                 errorPlayer.setHeaderText("Error!");
@@ -218,17 +219,17 @@ public class TeamCRUD{
                 errorPlayer.showAndWait();
                 return;
             }
-            if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
-                if (!selectedPlayers.isEmpty()){
-                    selectedTeam.removePlayer(playerTable.getItems().get(selectedPlayers.size()-1));
-                    selectedPlayers.remove(selectedPlayers.size()-1);
+            if (!selectedTeam.getTeamName().equalsIgnoreCase("")) {
+                if (!selectedPlayers.isEmpty()) {
+                    selectedTeam.removePlayer(playerTable.getItems().get(selectedPlayers.size() - 1));
+                    selectedPlayers.remove(selectedPlayers.size() - 1);
 
                     // Show alert
                     Alert removedPlayer = new Alert(Alert.AlertType.INFORMATION);
                     removedPlayer.setHeaderText("Success!");
                     removedPlayer.setContentText("The last Player was removed from: " + selectedTeam.getTeamName());
                     removedPlayer.showAndWait();
-                } else{
+                } else {
                     // Show alert
                     Alert errorPlayer = new Alert(Alert.AlertType.INFORMATION);
                     errorPlayer.setHeaderText("Error!");
@@ -250,7 +251,7 @@ public class TeamCRUD{
         Button buttonRemoveTeam = new Button("Delete selected Team");
         buttonRemoveTeam.setOnAction(e -> {
             Team selectedTeam = (Team) selectTeam.getSelectionModel().getSelectedItem();
-            if (selectedTeam == null){
+            if (selectedTeam == null) {
                 // Show alert
                 Alert errorTeam = new Alert(Alert.AlertType.INFORMATION);
                 errorTeam.setHeaderText("Error!");
@@ -258,7 +259,7 @@ public class TeamCRUD{
                 errorTeam.showAndWait();
                 return;
             }
-            if (!selectedTeam.getTeamName().equalsIgnoreCase("")){
+            if (!selectedTeam.getTeamName().equalsIgnoreCase("")) {
                 selectTeam.getItems().remove(selectedTeam);
                 teams.remove(selectedTeam);
                 selectTeam.getSelectionModel().selectFirst();
@@ -287,7 +288,7 @@ public class TeamCRUD{
         return teamCrudBox;
     }
 
-    public static void updateData(){
+    public static void updateData() {
         players = GUI.getPlayers();
         teams = GUI.getTeams();
 
@@ -298,7 +299,7 @@ public class TeamCRUD{
         // selectTeam
         selectableTeams.clear();
         // Fill starting list of Teams
-        for (Team team : teams){
+        for (Team team : teams) {
             selectableTeams.add(team);
         }
         ObservableList<Team> teamsList = FXCollections.observableList(selectableTeams);
@@ -309,11 +310,11 @@ public class TeamCRUD{
         selectPlayer.setItems(playerList);
     }
 
-    public static ArrayList<Player> getPlayers(){
+    public static ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public static ArrayList<Team> getTeams(){
+    public static ArrayList<Team> getTeams() {
         return teams;
     }
 }

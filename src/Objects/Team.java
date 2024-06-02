@@ -1,27 +1,24 @@
 package Objects;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Team{
-    private UUID id;
-    private String name;
-    private ArrayList<Player> players = new ArrayList<>();
-
+    private final UUID id;
+    private final String name;
+    private final HashMap<UUID, Player> players = new HashMap<>();
     public Team(String teamName, Player player){
         this.id = UUID.randomUUID();
         this.name = teamName;
-        this.players.add(player);
+        this.players.put(player.getId(),player);
     }
 
     public void addPlayer(Player player){
-        this.players.add(player);
+        this.players.put(player.getId(),player);
     }
 
     public void removePlayer(Player player){
-        if (this.players.contains(player)){
-            this.players.remove(player);
-        }
+        this.players.remove(player.getId());
     }
 
     public UUID getId(){
@@ -32,7 +29,7 @@ public class Team{
         return this.name;
     }
 
-    public ArrayList<Player> getPlayers(){
+    public HashMap<UUID, Player> getPlayers(){
         return this.players;
     }
 

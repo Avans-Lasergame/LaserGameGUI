@@ -4,11 +4,9 @@ import Objects.Interfaces.GunCallback;
 import Objects.Interfaces.PlayerCallback;
 
 public class Gun implements GunCallback{
-    // TODO: 04/04/2024 maak deze klasse
     int ID;
     private GunCallback gunCallback;
     private PlayerCallback playerCallback;
-
     public Gun(int ID) {
         this.ID = ID;
     }
@@ -23,7 +21,6 @@ public class Gun implements GunCallback{
         if (playerCallback != null)
             playerCallback.isHit();
     }
-
 
     public void setCallback(GunCallback gunCallback) {
         this.gunCallback = gunCallback;
@@ -54,4 +51,5 @@ public class Gun implements GunCallback{
     public void stop() {
         gunCallback.stop();
     }
+
 }
