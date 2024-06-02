@@ -2,20 +2,16 @@ package Objects;
 
 import Gui.GameCRUD;
 import Objects.Interfaces.PlayerCallback;
-
 import java.io.Serializable;
 import java.util.UUID;
 
 public class Player implements Serializable, PlayerCallback {
-
-
     private Gun gun;
     private UUID id;
     private String name;
     private int health;
     private int maxHealth;
     private boolean isDead = false;
-
     public Player(String name, int health,int maxHealth, Gun gun) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -24,6 +20,7 @@ public class Player implements Serializable, PlayerCallback {
         this.maxHealth = maxHealth;
         gun.setCallback(this);
     }
+
     public void setAll(String name, int health,int maxHealth, Gun gun) {
         this.name = name;
         this.health = health;
@@ -31,7 +28,6 @@ public class Player implements Serializable, PlayerCallback {
         this.gun = gun;
         gun.setCallback(this);
     }
-
 
     public Gun getGun() {
         return gun;
@@ -76,4 +72,5 @@ public class Player implements Serializable, PlayerCallback {
         System.out.println("update");
         GameCRUD.getGame().update();
     }
+
 }
